@@ -1,5 +1,7 @@
 # Usage
 
+This README is a living document. Update it whenever the code, run commands, artifact locations, or datasets change.
+
 1. Create a virtual environment and install dependencies:
 
     ```bash
@@ -92,6 +94,13 @@
     OPEN_SUBTITLES_DIR = DATA_DIR / "opensubtitles"
     ```
 
+## Live Documentation Checklist
+
+- Keep the command used for the latest successful run up to date.
+- Record any new artifact directories under `artifacts/`.
+- Note when a step should be run locally with `mps` or deferred to Colab with a T4 GPU.
+- Mirror any major experimental change in `report.tex`.
+
 # Exercise 1
 
 The first exercise is implemented in PyTorch under `src/ex1/`. It contains:
@@ -125,6 +134,14 @@ The main outputs are saved in:
 - `artifacts/exercise1/checkpoints/baseline_seq2seq.pt`
 
 This baseline is intentionally simple so it can be extended later in the coursework with attention, improved decoding, memory, personality conditioning, and feedback.
+
+## Course Deliverables To Maintain
+
+- Dataset description and preprocessing notes.
+- Model and decoding improvements.
+- Training, validation, and evaluation summaries.
+- Ablation study notes.
+- Limitations, ethical discussion, and future work.
 
 
 # Datasets

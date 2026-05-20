@@ -1,0 +1,20 @@
+USER: Gosh, if only we could find Kat a boyfriend...
+REFERENCE: Let me see what I can do.
+GREEDY: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+BEAM: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+------------------------------------------------------------------------
+USER: Hi.
+REFERENCE: Looks like things worked out tonight, huh?
+GREEDY: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+BEAM: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+------------------------------------------------------------------------
+USER: Not the hacking and gagging and spitting part.  Please.
+REFERENCE: Okay... then how 'bout we try out some French cuisine.  Saturday?  Night?
+GREEDY: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+BEAM: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+------------------------------------------------------------------------
+USER: Well, I thought we'd start with pronunciation, if that's okay with you.
+REFERENCE: Not the hacking and gagging and spitting part.  Please.
+GREEDY: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+BEAM: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+------------------------------------------------------------------------

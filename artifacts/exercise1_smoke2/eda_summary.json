@@ -1,0 +1,117 @@
+{
+  "num_pairs": 59,
+  "vocab_size": 327,
+  "avg_source_length": 8.51,
+  "avg_target_length": 8.41,
+  "median_source_length": 8,
+  "median_target_length": 7,
+  "top_tokens": [
+    [
+      ".",
+      110
+    ],
+    [
+      "?",
+      45
+    ],
+    [
+      ",",
+      40
+    ],
+    [
+      "you",
+      35
+    ],
+    [
+      "i",
+      32
+    ],
+    [
+      "to",
+      22
+    ],
+    [
+      "a",
+      19
+    ],
+    [
+      "the",
+      17
+    ],
+    [
+      "-",
+      17
+    ],
+    [
+      "my",
+      10
+    ],
+    [
+      "like",
+      10
+    ],
+    [
+      "what",
+      9
+    ],
+    [
+      "be",
+      9
+    ],
+    [
+      "you're",
+      8
+    ],
+    [
+      "but",
+      8
+    ],
+    [
+      "was",
+      8
+    ],
+    [
+      "not",
+      7
+    ],
+    [
+      "and",
+      7
+    ],
+    [
+      "out",
+      7
+    ],
+    [
+      "do",
+      7
+    ]
+  ],
+  "noisy_examples": [
+    {
+      "source": "Not the hacking and gagging and spitting part.  Please.",
+      "target": "Okay... then how 'bout we try out some French cuisine.  Saturday?  Night?",
+      "reason": "punctuation_heavy"
+    },
+    {
+      "source": "No, no, it's my fault -- we didn't have a proper introduction ---",
+      "target": "Cameron.",
+      "reason": "very_short"
+    },
+    {
+      "source": "Gosh, if only we could find Kat a boyfriend...",
+      "target": "Let me see what I can do.",
+      "reason": "punctuation_heavy"
+    },
+    {
+      "source": "How is our little Find the Wench A Date plan progressing?",
+      "target": "Well, there's someone I think might be --",
+      "reason": "punctuation_heavy"
+    },
+    {
+      "source": "There.",
+      "target": "Where?",
+      "reason": "very_short"
+    }
+  ]
+}

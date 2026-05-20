@@ -1,0 +1,50 @@
+USER: Rorschach, you're talkin' heavy duty stuff.  I got nothing to do with --
+REFERENCE: Worked both sides of the fence.  Ask your old buddies in the CTU.
+GREEDY: - -
+BEAM: - -
+------------------------------------------------------------------------
+USER: Nothing.
+REFERENCE: I disagree.  You think I've been acting strange.  Like a completely different person.
+GREEDY: you...
+BEAM: what?
+------------------------------------------------------------------------
+USER: Where have you been?
+REFERENCE: It was a slow night. I went to a hotel for a few drinks.
+GREEDY: i...
+BEAM: <unk>.
+------------------------------------------------------------------------
+USER: How the fuck do you think? The cops shot him.
+REFERENCE: Oh this is bad, this is so bad.  Is it bad?
+GREEDY: i,..
+BEAM: i don't know.
+------------------------------------------------------------------------
+USER: No. We have tomatoes.
+REFERENCE: But I can't have any. Is that what you mean?
+GREEDY: i.
+BEAM: yeah.
+------------------------------------------------------------------------
+USER: What does that mean? You don't have any tomatoes?
+REFERENCE: No. We have tomatoes.
+GREEDY: i...
+BEAM: yes.
+------------------------------------------------------------------------
+USER: Dare I ask the fate of it previous owner?
+REFERENCE: Now, none of that.  Please dig in.
+GREEDY: i.
+BEAM: yes.
+------------------------------------------------------------------------
+USER: Wherever they're going, I'm going.
+REFERENCE: Yeah, I know what that's like... Where you been?
+GREEDY: you,..
+BEAM: good...
+------------------------------------------------------------------------
+USER: Nine and-a-half years ago.
+REFERENCE: Nine and-a-half years...
+GREEDY: you,
+BEAM: yeah.
+------------------------------------------------------------------------
+USER: Then I guess this is where we part ways. Sorry.
+REFERENCE: No hard feelings.
+GREEDY: what?
+BEAM: yeah.
+------------------------------------------------------------------------

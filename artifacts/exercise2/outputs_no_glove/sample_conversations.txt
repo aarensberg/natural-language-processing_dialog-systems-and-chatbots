@@ -1,0 +1,60 @@
+USER: Sounds great. Where do I sign up?
+REFERENCE: I haven't been out here for a while.
+GREEDY: i.
+BEAM: where are you?
+TOPK_TEMP: it's the, you.
+------------------------------------------------------------------------
+USER: Yes?
+REFERENCE: Molested, Majesty. Twice, in the course of the same lesson.
+GREEDY: i.
+BEAM: i'm sorry.
+TOPK_TEMP: we can take a. it..
+------------------------------------------------------------------------
+USER: Poor Cotton, could life be a little more cruel?
+REFERENCE: Youre not going to get away with this.
+GREEDY: i, i.
+BEAM: yeah.
+TOPK_TEMP: i'm sorry going to make my work.
+------------------------------------------------------------------------
+USER: One brother, one sister.
+REFERENCE: Studied acting, I assume?
+GREEDY: yes, sir.
+BEAM: yes.
+TOPK_TEMP: who have you? to do you for all?
+------------------------------------------------------------------------
+USER: Hard to judge how these things happen. The Parole Board almost never reverses their decisions.
+REFERENCE: I guess it was because I was a model prisoner.
+GREEDY: i don't know.
+BEAM: i don't know.
+TOPK_TEMP: i do we want to
+------------------------------------------------------------------------
+USER: Never to pretend to know more than I did.
+REFERENCE: Can you name all the members of the Cabinet?
+GREEDY: i don't know.
+BEAM: well,..
+TOPK_TEMP: but you think i'll get him. the whole thing...
+------------------------------------------------------------------------
+USER: That was our insurance company's recommendation.
+REFERENCE: Yes.  It would be.
+GREEDY: what?
+BEAM: what?
+TOPK_TEMP: what does it know??
+------------------------------------------------------------------------
+USER: Take the first shot at me.
+REFERENCE: I ain't hitting a man first.
+GREEDY: what?
+BEAM: no.
+TOPK_TEMP: the time is that?
+------------------------------------------------------------------------
+USER: Look asshole.  I've been threatened by better than you.
+REFERENCE: No.  I'm the best that's ever threatened you.
+GREEDY: i...
+BEAM: yeah.
+TOPK_TEMP: you're kidding so.
+------------------------------------------------------------------------
+USER: Sort of!
+REFERENCE: Hey Dwayne why don't you introduce him to your funeral parlor cousin?
+GREEDY: what?
+BEAM: oh...
+TOPK_TEMP: i'm sorry.
+------------------------------------------------------------------------

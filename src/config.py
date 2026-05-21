@@ -7,6 +7,10 @@ EX1_DIR = ARTIFACTS_DIR / "exercise1"
 EX1_CHECKPOINT_DIR = EX1_DIR / "checkpoints"
 EX1_OUTPUT_DIR = EX1_DIR / "outputs"
 EX1_REPORT_DIR = EX1_DIR / "report"
+EX2_DIR = ARTIFACTS_DIR / "exercise2"
+EX2_CHECKPOINT_DIR = EX2_DIR / "checkpoints"
+EX2_OUTPUT_DIR = EX2_DIR / "outputs"
+EX2_REPORT_DIR = EX2_DIR / "report"
 
 assert (
     DATA_DIR.exists()
@@ -38,6 +42,16 @@ EMBED_DIM = 256
 HIDDEN_DIM = 384
 DROPOUT = 0.2
 TEACHER_FORCING_RATIO = 0.55
+MODEL_NUM_LAYERS = 2
+USE_BIDIRECTIONAL_ENCODER = True
+
+USE_GLOVE = True
+GLOVE_DIM = 300
+GLOVE_FILE = (
+    DATA_DIR
+    / "wiki_giga_2024_300_MFT20_vectors_seed_2024_alpha_0.75_eta_0.05_combined.txt"
+)
+FREEZE_GLOVE = False
 
 PAD_TOKEN = "<pad>"
 UNK_TOKEN = "<unk>"

@@ -1,0 +1,17 @@
+{
+  "greedy": {
+    "bleu": 0.0076,
+    "distinct_1": 0.0031,
+    "distinct_2": 0.013
+  },
+  "beam": {
+    "bleu": 0.0059,
+    "distinct_1": 0.0052,
+    "distinct_2": 0.018
+  },
+  "topk_temp": {
+    "bleu": 0.005,
+    "distinct_1": 0.0118,
+    "distinct_2": 0.1079
+  }
+}

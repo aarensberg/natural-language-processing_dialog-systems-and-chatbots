@@ -1,0 +1,60 @@
+USER: It was a crematorium.
+REFERENCE: For garbage?
+GREEDY: what was it?
+BEAM: what was it?
+TOPK_TEMP: what - - was a.
+------------------------------------------------------------------------
+USER: Yeah. Fuck it, Dil.
+REFERENCE: Fucking men, Col --
+GREEDY: you,
+BEAM: oh, heh...
+TOPK_TEMP: well, you didn't have to <unk> and i was gonna give it away.
+------------------------------------------------------------------------
+USER: Show us the manager. He wears a suit.
+REFERENCE: They have him in the lobby, go quickly.
+GREEDY: i.
+BEAM: oh...
+TOPK_TEMP: what, - -
+------------------------------------------------------------------------
+USER: I'm sure he's got food. He's always got those microwave burrito things in his freezer.
+REFERENCE: You think he's got any herb?
+GREEDY: i,.
+BEAM: oh, yeah.
+TOPK_TEMP: he looks better to try us to
+------------------------------------------------------------------------
+USER: What a chase!
+REFERENCE: No luck on Williams, yet -- call you back.
+GREEDY: what?
+BEAM: i!
+TOPK_TEMP: what?
+------------------------------------------------------------------------
+USER: No.
+REFERENCE: Sugarballs?
+GREEDY: you,
+BEAM: why not?
+TOPK_TEMP: but you're not. this night.
+------------------------------------------------------------------------
+USER: You're wasting your time. I'm already married to him.
+REFERENCE: Not so far as I'm concerned, you're not.  Yes?
+GREEDY: i,..
+BEAM: i'm not.
+TOPK_TEMP: i. the world..
+------------------------------------------------------------------------
+USER: You're trying to kill yourself with an electric razor?
+REFERENCE: I couldn't find any razor blades.
+GREEDY: i.
+BEAM: no.
+TOPK_TEMP: how about you, do you?
+------------------------------------------------------------------------
+USER: Toss us out on our ass.
+REFERENCE: Exactly.
+GREEDY: i,..
+BEAM: no.
+TOPK_TEMP: no.
+------------------------------------------------------------------------
+USER: We'll make arrangements to have you beamed aboard at 1930 hours.
+REFERENCE: I shall look forward to it.
+GREEDY: i,..
+BEAM: thank you.
+TOPK_TEMP: you?
+------------------------------------------------------------------------

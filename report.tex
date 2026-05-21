@@ -18,44 +18,49 @@
 \begin{document}
 
 \maketitle
-
 \tableofcontents
 \newpage
 
 \section{Introduction and Motivation}
-Describe the goal of the coursework, the chatbot problem, and the overall approach.
+This coursework builds a neural chatbot from scratch using PyTorch, starting from a Cornell Movie-Dialogs baseline and extending it with attention, stronger decoding, and pretrained word embeddings. The goal is to improve relevance, coherence, and response diversity while keeping the system reproducible and fully trainable by the student.
 
 \section{Datasets and Preprocessing}
-Describe the datasets used, the construction of input-response pairs, filtering, tokenization, normalization, and splitting.
+The main dataset is the Cornell Movie-Dialogs Corpus, which is converted into single-turn input-response pairs by traversing conversation chains and pairing each utterance with the next one. Pairs are filtered for length and quality, tokenized with punctuation separation, lowercased, and truncated to fixed maximum lengths. Splits are performed by conversation to reduce leakage across train, validation, and test sets.
 
 \section{Exploratory Data Analysis}
-Report dataset sizes, vocabulary sizes, average lengths, and examples of noisy samples.
+The preprocessing pipeline reports dataset size, vocabulary size, average source and target lengths, token frequency summaries, and noisy examples such as very short utterances or punctuation-heavy pairs. These statistics are exported as JSON and plotted as histograms and token-frequency charts under the artifact directories.
 
 \section{Baseline Model}
-Describe the baseline architecture, training setup, and decoding strategy.
+The baseline is a word-level GRU encoder-decoder trained with teacher forcing. It uses a learned embedding layer, a unidirectional recurrent encoder, and greedy or beam-search decoding at inference time. This model establishes the Ex1 reference point and provides the comparison target for later improvements.
 
 \section{Improved Model and Decoding}
-Describe model improvements, decoding strategies, and why they should help.
+The improved model replaces the baseline encoder with a multi-layer bi-directional GRU and adds additive attention in the decoder. The decoder conditions on both the previous token and the attention-weighted encoder context. The pipeline also supports three decoding strategies: greedy decoding, beam search with length penalty, and top-k sampling with temperature. This makes it possible to compare deterministic and stochastic generation.
+
+Pretrained word embeddings are optionally loaded from the extracted GloVe vectors. The current setup uses the 2024 wiki-giga embedding file extracted under the data directory, and the loader reports vocabulary coverage before training starts.
 
 \section{Multiple Datasets and Domain Effects}
-Compare behavior across datasets and discuss tone, vocabulary, and robustness.
+The codebase is already structured to support additional dialogue corpora such as PersonaChat, DailyDialog, EmpatheticDialogues, and OpenSubtitles. The current report focuses on Cornell as the main baseline, but the architecture and preprocessing pipeline are designed so that dataset-specific tone, vocabulary, and noise levels can be compared later without changing the model code.
 
 \section{Memory, Personality, and Feedback}
-Explain the memory mechanism, persona design, and feedback adaptation.
+These components are part of the coursework scope and remain to be implemented as structured mechanisms rather than ad hoc prompts. The current codebase keeps the architecture modular so that memory, persona conditioning, and feedback adaptation can be added without changing the core seq2seq training loop.
 
 \section{Evaluation and Results}
-Include quantitative metrics, qualitative examples, sample conversations, and training curves or plots.
+Two runs were executed to validate the improved pipeline. A smoke test on 100 conversations confirmed that the attention-based model, GloVe loading, and the three decoding paths all execute end-to-end. With the extracted GloVe file, coverage reached 89.6\% on the smoke vocabulary and 93.0\% on the full Cornell vocabulary. The smoke run produced the following metrics: train loss 4.4823, validation loss 3.1685, test loss 3.4739, with corresponding perplexities 88.4359, 23.7708, and 32.2609.
+
+The qualitative samples show the expected limitations of a short run: greedy and beam outputs remain generic, while top-k sampling is slightly more varied but still sparse. A later Colab run on the full Cornell corpus used 5 epochs, batch size 128, CUDA, and the extracted GloVe vectors. It produced train loss 4.3799, validation loss 4.0673, test loss 4.0786, with perplexities 79.8270, 58.3982, and 59.0631. The generation metrics were also computed per decoding strategy: greedy BLEU 0.0059 with distinct-1 0.0028 and distinct-2 0.0110; beam BLEU 0.0054 with distinct-1 0.0040 and distinct-2 0.0137; top-k plus temperature BLEU 0.0052 with distinct-1 0.0110 and distinct-2 0.1079. The generated artifacts are stored under [artifacts/exercise2/outputs](artifacts/exercise2/outputs).
+
+A matched no-GloVe run with the same budget was also executed for comparison. It produced train loss 4.3422, validation loss 4.1368, test loss 4.1441, with perplexities 76.8777, 62.6046, and 63.0630. Its generation metrics were greedy BLEU 0.0076 with distinct-1 0.0031 and distinct-2 0.0130; beam BLEU 0.0059 with distinct-1 0.0052 and distinct-2 0.0180; top-k plus temperature BLEU 0.0050 with distinct-1 0.0118 and distinct-2 0.1079. This comparison suggests that GloVe improves validation and test loss, while the no-GloVe run is slightly stronger on greedy and beam BLEU.
 
 \section{Ablation Study}
-Show the effect of removing one component such as memory, personality conditioning, feedback, or improved decoding.
+The current implementation supports ablations by toggling GloVe initialization, freezing embeddings, changing the number of layers, and comparing decoding strategies. A useful ablation for the final report is to compare the full model against a no-GloVe variant and against greedy decoding only.
 
 \section{Error Analysis}
-Discuss at least five failure cases and explain the underlying causes.
+The smoke samples already reveal typical chatbot failure modes: repeated \texttt{<unk>} tokens, empty or nearly empty responses, over-reliance on punctuation, and weak semantic alignment with the input. These failures are consistent with a small training budget and a limited vocabulary built from filtered dialogue pairs. Even in the better Colab run, the BLEU scores remain very low, which confirms that the model still produces mostly generic dialogue despite improved losses.
 
 \section{Limitations, Ethics, and Future Work}
-Discuss limitations, ethical issues, dataset bias, safety, and possible next improvements.
+The current system is still a word-level seq2seq model and therefore cannot maintain long-term context or robust factual grounding. Movie dialogue also induces stylistic bias and dramatic responses. Future work should add memory, persona control, feedback storage, and stronger evaluation metrics such as BLEU and distinct-n to better characterize quality and diversity.
 
 \section{Conclusion}
-Summarize the main findings and the final state of the chatbot system.
+The project now includes a reproducible PyTorch baseline, an improved attention-based chatbot, pretrained embedding support, and multiple decoding strategies. The Colab results give a stronger final reference point for the report, and the matched no-GloVe run provides a clean ablation baseline, while remaining extension work is centered on memory, persona, and feedback behavior.
 
 \end{document}

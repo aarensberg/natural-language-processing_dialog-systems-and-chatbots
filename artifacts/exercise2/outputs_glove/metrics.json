@@ -1,0 +1,141 @@
+{
+  "num_pairs": 149051,
+  "num_conversations": 66962,
+  "vocab_size": 36440,
+  "avg_source_length": 8.41,
+  "avg_target_length": 8.41,
+  "median_source_length": 7,
+  "median_target_length": 7,
+  "top_tokens": [
+    [
+      ".",
+      346714
+    ],
+    [
+      "?",
+      103675
+    ],
+    [
+      ",",
+      91632
+    ],
+    [
+      "you",
+      88782
+    ],
+    [
+      "i",
+      64993
+    ],
+    [
+      "the",
+      50475
+    ],
+    [
+      "to",
+      42596
+    ],
+    [
+      "-",
+      41076
+    ],
+    [
+      "a",
+      38379
+    ],
+    [
+      "it",
+      29416
+    ],
+    [
+      "!",
+      28981
+    ],
+    [
+      "what",
+      26644
+    ],
+    [
+      "that",
+      20455
+    ],
+    [
+      "me",
+      20254
+    ],
+    [
+      "of",
+      18177
+    ],
+    [
+      "is",
+      18029
+    ],
+    [
+      "and",
+      17076
+    ],
+    [
+      "in",
+      17050
+    ],
+    [
+      "do",
+      17003
+    ],
+    [
+      "don't",
+      16994
+    ]
+  ],
+  "noisy_examples": [
+    {
+      "source": "Not the hacking and gagging and spitting part.  Please.",
+      "target": "Okay... then how 'bout we try out some French cuisine.  Saturday?  Night?",
+      "reason": "punctuation_heavy"
+    },
+    {
+      "source": "No, no, it's my fault -- we didn't have a proper introduction ---",
+      "target": "Cameron.",
+      "reason": "very_short"
+    },
+    {
+      "source": "Gosh, if only we could find Kat a boyfriend...",
+      "target": "Let me see what I can do.",
+      "reason": "punctuation_heavy"
+    },
+    {
+      "source": "How is our little Find the Wench A Date plan progressing?",
+      "target": "Well, there's someone I think might be --",
+      "reason": "punctuation_heavy"
+    },
+    {
+      "source": "There.",
+      "target": "Where?",
+      "reason": "very_short"
+    }
+  ],
+  "train_loss": 4.3799,
+  "valid_loss": 4.0673,
+  "test_loss": 4.0786,
+  "train_perplexity": 79.827,
+  "valid_perplexity": 58.3982,
+  "test_perplexity": 59.0631,
+  "generation_metrics": {
+    "greedy": {
+      "bleu": 0.0059,
+      "distinct_1": 0.0028,
+      "distinct_2": 0.011
+    },
+    "beam": {
+      "bleu": 0.0054,
+      "distinct_1": 0.004,
+      "distinct_2": 0.0137
+    },
+    "topk_temp": {
+      "bleu": 0.0052,
+      "distinct_1": 0.011,
+      "distinct_2": 0.1079
+    }
+  }
+}

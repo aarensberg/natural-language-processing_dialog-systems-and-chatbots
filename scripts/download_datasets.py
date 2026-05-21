@@ -1,3 +1,4 @@
+import argparse
 from pathlib import Path
 import urllib.request
 import tarfile
@@ -38,7 +39,37 @@ def extract_archive(archive_path: Path, extract_to: Path):
         print(f"❌ Unsupported archive format: {archive_path}")
 
 
+DATASETS = {
+    "cornell": {
+        "filename": "cornell_movie_dialogs_corpus.zip",
+        "url": CORNELL_MOVIE_URL,
+    },
+    "personachat": {"filename": "personachat.tgz", "url": PERSONA_CHAT_URL},
+    "dailydialog": {"filename": "dailydialog.zip", "url": DAILY_DIALOG_URL},
+    "empatheticdialogues": {
+        "filename": "empatheticdialogues.tar.gz",
+        "url": EMPATHETIC_DIALOGUES_URL,
+    },
+    "opensubtitles": {"filename": "opensubtitles.zip", "url": OPEN_SUBTITLES_URL},
+}
+
+
 if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser(
+        description="Download and extract the dialogue datasets used by the coursework."
+    )
+    parser.add_argument(
+        "--datasets",
+        nargs="+",
+        choices=sorted(DATASETS.keys()),
+        default=sorted(DATASETS.keys()),
+        help=(
+            "Optional list of datasets to download. Omit the flag to download all. "
+            "Available values: cornell, personachat, dailydialog, empatheticdialogues, opensubtitles."
+        ),
+    )
+    args = parser.parse_args()
 
     # ===== 0. Create output directory if it doesn't exist =====
 
@@ -47,15 +78,10 @@ if __name__ == "__main__":
 
     #  ===== 1. Download and extract each dataset =====
 
-    datasets = {
-        "cornell_movie_dialogs_corpus.zip": CORNELL_MOVIE_URL,
-        "personachat.tgz": PERSONA_CHAT_URL,
-        "dailydialog.zip": DAILY_DIALOG_URL,
-        "empatheticdialogues.tar.gz": EMPATHETIC_DIALOGUES_URL,
-        "opensubtitles.zip": OPEN_SUBTITLES_URL,
-    }
-
-    for filename, url in datasets.items():
+    for dataset_name in args.datasets:
+        dataset = DATASETS[dataset_name]
+        filename = dataset["filename"]
+        url = dataset["url"]
         dest_path = OUTPUT_DIR / filename
         download_file(url, dest_path)
         extract_archive(dest_path, OUTPUT_DIR)
@@ -64,7 +90,7 @@ if __name__ == "__main__":
     # ===== 2. Extract DailyDialogues sub-zip files =====
 
     dailydialog_dir = OUTPUT_DIR / "EMNLP_dataset"
-    if dailydialog_dir.exists():
+    if "dailydialog" in args.datasets and dailydialog_dir.exists():
         sub_zip_files = dailydialog_dir.glob("*.zip")  # train, test and valid
         for sub_zip in sub_zip_files:
             extract_archive(sub_zip, dailydialog_dir)
@@ -77,14 +103,15 @@ if __name__ == "__main__":
 
     # 3.2 Place OpenSubtitles files in a dedicated subdirectory
     opensubtitles_dir = OUTPUT_DIR / "opensubtitles"
-    opensubtitles_dir.mkdir(exist_ok=True)
+    if "opensubtitles" in args.datasets:
+        opensubtitles_dir.mkdir(exist_ok=True)
 
-    for filename in [
-        "LICENSE",
-        "README",
-        "OpenSubtitles.en-fr.en",
-        "OpenSubtitles.en-fr.fr",
-    ]:
-        src_file = OUTPUT_DIR / filename
-        if src_file.exists():
-            shutil.move(src_file, opensubtitles_dir / filename)
+        for filename in [
+            "LICENSE",
+            "README",
+            "OpenSubtitles.en-fr.en",
+            "OpenSubtitles.en-fr.fr",
+        ]:
+            src_file = OUTPUT_DIR / filename
+            if src_file.exists():
+                shutil.move(src_file, opensubtitles_dir / filename)

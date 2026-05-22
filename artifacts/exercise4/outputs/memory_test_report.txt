@@ -1,0 +1,35 @@
+Exercise 4 memory comparison
+================================
+
+Accuracy: 1.0 (5/5)
+
+Case: name_recall
+Turns: ["My name is Ana.", "What is my name?"]
+Baseline: berger.
+Memory: Your name is Ana.
+Passed: True
+------------------------------------------------------------------------
+Case: location_recall
+Turns: ["I live in Lyon.", "Where do I live?"]
+Baseline: oklahoma.
+Memory: You live in Lyon.
+Passed: True
+------------------------------------------------------------------------
+Case: preference_recall
+Turns: ["I love pizza.", "What do I like?"]
+Baseline: i like to.
+Memory: You like pizza.
+Passed: True
+------------------------------------------------------------------------
+Case: statement_recall
+Turns: ["I am learning piano.", "What did I tell you?"]
+Baseline: i was a..
+Memory: You said: I am learning piano.
+Passed: True
+------------------------------------------------------------------------
+Case: combined_recall
+Turns: ["My name is Sam. I live in Toronto. I like hiking.", "Do you remember me?"]
+Baseline: no.
+Memory: Yes, I remember: location=Toronto; name=Sam; preference=hiking.
+Passed: True
+------------------------------------------------------------------------

@@ -1,0 +1,22 @@
+{
+  "experiment": "cornell_only",
+  "datasets": [
+    "cornell"
+  ],
+  "train_examples": 16,
+  "valid_examples": 2,
+  "test_examples": 4,
+  "train_conversations": 12,
+  "valid_conversations": 1,
+  "test_conversations": 3,
+  "by_domain": {
+    "cornell": {
+      "train_examples": 16,
+      "valid_examples": 2,
+      "test_examples": 4,
+      "train_conversations": 12,
+      "valid_conversations": 1,
+      "test_conversations": 3
+    }
+  }
+}

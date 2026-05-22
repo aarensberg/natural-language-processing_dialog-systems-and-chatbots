@@ -1,0 +1,21 @@
+DOMAIN: cornell
+USER: not the hacking and gagging and spitting part. please.
+REFERENCE: Okay... then how 'bout we try out some French cuisine.  Saturday?  Night?
+GREEDY: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+BEAM: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+TOPK_TEMP: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: well, i thought we'd start with pronunciation, if that's okay with you.
+REFERENCE: Not the hacking and gagging and spitting part.  Please.
+GREEDY: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+BEAM: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+TOPK_TEMP: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>. <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: how is our little find the wench a date plan progressing?
+REFERENCE: Well, there's someone I think might be --
+GREEDY: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+BEAM: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+TOPK_TEMP: <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+------------------------------------------------------------------------

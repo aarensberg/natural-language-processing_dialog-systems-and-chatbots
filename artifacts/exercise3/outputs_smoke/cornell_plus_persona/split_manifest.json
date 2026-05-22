@@ -1,0 +1,31 @@
+{
+  "experiment": "cornell_plus_persona",
+  "datasets": [
+    "cornell",
+    "personachat"
+  ],
+  "train_examples": 43,
+  "valid_examples": 0,
+  "test_examples": 16,
+  "train_conversations": 11,
+  "valid_conversations": 0,
+  "test_conversations": 4,
+  "by_domain": {
+    "cornell": {
+      "train_examples": 6,
+      "valid_examples": 0,
+      "test_examples": 3,
+      "train_conversations": 5,
+      "valid_conversations": 0,
+      "test_conversations": 2
+    },
+    "personachat": {
+      "train_examples": 37,
+      "valid_examples": 0,
+      "test_examples": 13,
+      "train_conversations": 6,
+      "valid_conversations": 0,
+      "test_conversations": 2
+    }
+  }
+}

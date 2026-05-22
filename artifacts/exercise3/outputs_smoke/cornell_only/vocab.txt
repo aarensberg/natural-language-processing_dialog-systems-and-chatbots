@@ -1,0 +1,11 @@
+<pad>
+<unk>
+<bos>
+<eos>
+.
+corpus
+cornell
+-
+?
+,
+a

@@ -1,0 +1,10 @@
+{
+  "cornell": {
+    "distinct_1": 0.7826,
+    "distinct_2": 0.9762
+  },
+  "combined": {
+    "distinct_1": 0.7826,
+    "distinct_2": 0.9762
+  }
+}

@@ -44,26 +44,25 @@ Keep only the exercise root folders in `artifacts/`:
 artifacts
 ├── exercise1
 │   ├── checkpoints
-│   ├── outputs
-│   └── copilot-journal.md
+│   └── outputs
 ├── exercise2
 │   ├── checkpoints
-│   ├── outputs
-│   └── copilot-journal.md
-└── exercise{3-7}
+│   └── outputs
+├── exercise3
+│   ├── checkpoints
+│   └── outputs
+└── exercise{4-7}
     ├── checkpoints
-    ├── outputs
-    └── copilot-journal.md
+    └── outputs
 ```
 
 Current exercise outputs are stored in:
 
 - `artifacts/exercise1/outputs/`
-- `artifacts/exercise1/checkpoints/`
 - `artifacts/exercise2/outputs/`
-- `artifacts/exercise2/checkpoints/`
 - `artifacts/exercise2/outputs_no_glove/`
 - `artifacts/exercise2/outputs_glove/`
+- `artifacts/exercise3/outputs/`
 
 ## Running Exercise 2
 
@@ -88,6 +87,7 @@ pip install -r requirements.txt
 python scripts/download_datasets.py --datasets cornell
 curl -L "https://nlp.stanford.edu/data/wordvecs/glove.2024.wikigiga.300d.zip" -o glove.2024.wikigiga.300d.zip
 unzip glove.2024.wikigiga.300d.zip
+rm glove.2024.wikigiga.300d.zip  # Optional cleanup
 python -m src.pipeline --epochs 5 --batch-size 128 --device cuda --use-glove --glove-path data/wiki_giga_2024_300_MFT20_vectors_seed_2024_alpha_0.75_eta_0.05_combined.txt --output-dir artifacts/exercise2/outputs
 ```
 
@@ -105,6 +105,26 @@ For the ablation comparison, keep both Colab result folders:
 The GloVe run is the better reference for validation/test loss, while the no-GloVe run remains useful as the ablation baseline.
 
 If you rerun a job, clear or archive the target `outputs/` directory first so the standardized layout stays clean.
+
+## Running Exercise 3
+
+Exercise 3 compares Cornell-only training with Cornell + PersonaChat training using the same attention-based seq2seq model and a corpus prefix in the source text.
+
+```bash
+python -m src.pipeline_ex3 --experiments cornell_only cornell_plus_persona --epochs 5 --batch-size 128 --device cuda --use-glove --glove-path data/wiki_giga_2024_300_MFT20_vectors_seed_2024_alpha_0.75_eta_0.05_combined.txt --output-dir artifacts/exercise3/outputs
+```
+
+The pipeline writes comparison outputs, domain-specific metrics, plots, and sample conversations under `artifacts/exercise3/outputs/{cornell_only,cornell_plus_persona}`.
+
+Recommended Colab flow on a T4 GPU:
+
+```bash
+git clone https://github.com/aarensberg/natural-language-processing_dialog-systems-and-chatbots.git
+cd natural-language-processing_dialog-systems-and-chatbots
+pip install -r requirements.txt
+python scripts/download_datasets.py --datasets personachat
+python -m src.pipeline_ex3 --experiments cornell_only cornell_plus_persona --epochs 5 --batch-size 128 --device cuda --use-glove --glove-path data/wiki_giga_2024_300_MFT20_vectors_seed_2024_alpha_0.75_eta_0.05_combined.txt --output-dir artifacts/exercise3/outputs
+```
 
 ## Datasets
 

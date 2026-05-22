@@ -1,0 +1,284 @@
+{
+  "train": {
+    "num_pairs": 108,
+    "num_conversations": 16,
+    "vocab_size": 649,
+    "avg_source_length": 13.46,
+    "avg_target_length": 11.89,
+    "median_source_length": 13,
+    "median_target_length": 12,
+    "top_tokens": [
+      [
+        ".",
+        186
+      ],
+      [
+        "i",
+        161
+      ],
+      [
+        "corpus",
+        108
+      ],
+      [
+        "personachat",
+        108
+      ],
+      [
+        "you",
+        80
+      ],
+      [
+        "?",
+        73
+      ],
+      [
+        "to",
+        66
+      ],
+      [
+        "a",
+        66
+      ],
+      [
+        ",",
+        58
+      ],
+      [
+        "my",
+        52
+      ],
+      [
+        "is",
+        52
+      ],
+      [
+        "do",
+        47
+      ],
+      [
+        "am",
+        42
+      ],
+      [
+        "have",
+        39
+      ],
+      [
+        "!",
+        35
+      ],
+      [
+        "that",
+        34
+      ],
+      [
+        "are",
+        33
+      ],
+      [
+        "the",
+        32
+      ],
+      [
+        "and",
+        28
+      ],
+      [
+        "like",
+        24
+      ]
+    ],
+    "noisy_examples": [
+      {
+        "source": "corpus personachat very cool . thanks for the chat . have a great day .",
+        "target": "you too",
+        "reason": "very_short"
+      }
+    ]
+  },
+  "valid": {
+    "num_pairs": 16,
+    "num_conversations": 2,
+    "vocab_size": 139,
+    "avg_source_length": 10.44,
+    "avg_target_length": 10.25,
+    "median_source_length": 9,
+    "median_target_length": 10,
+    "top_tokens": [
+      [
+        "i",
+        25
+      ],
+      [
+        "corpus",
+        16
+      ],
+      [
+        "personachat",
+        16
+      ],
+      [
+        ".",
+        15
+      ],
+      [
+        "a",
+        15
+      ],
+      [
+        "you",
+        11
+      ],
+      [
+        "do",
+        9
+      ],
+      [
+        "am",
+        7
+      ],
+      [
+        "is",
+        7
+      ],
+      [
+        "it",
+        6
+      ],
+      [
+        "the",
+        6
+      ],
+      [
+        "to",
+        5
+      ],
+      [
+        "are",
+        4
+      ],
+      [
+        "that",
+        4
+      ],
+      [
+        "job",
+        4
+      ],
+      [
+        "get",
+        4
+      ],
+      [
+        "work",
+        4
+      ],
+      [
+        "at",
+        4
+      ],
+      [
+        "hi",
+        3
+      ],
+      [
+        "how",
+        3
+      ]
+    ],
+    "noisy_examples": []
+  },
+  "test": {
+    "num_pairs": 14,
+    "num_conversations": 2,
+    "vocab_size": 142,
+    "avg_source_length": 15.29,
+    "avg_target_length": 11.36,
+    "median_source_length": 16,
+    "median_target_length": 12,
+    "top_tokens": [
+      [
+        "i",
+        34
+      ],
+      [
+        ".",
+        30
+      ],
+      [
+        "corpus",
+        14
+      ],
+      [
+        "personachat",
+        14
+      ],
+      [
+        "you",
+        11
+      ],
+      [
+        "do",
+        10
+      ],
+      [
+        "to",
+        9
+      ],
+      [
+        "?",
+        9
+      ],
+      [
+        "have",
+        8
+      ],
+      [
+        "is",
+        7
+      ],
+      [
+        "am",
+        6
+      ],
+      [
+        "like",
+        6
+      ],
+      [
+        "not",
+        6
+      ],
+      [
+        "a",
+        6
+      ],
+      [
+        "!",
+        5
+      ],
+      [
+        "and",
+        5
+      ],
+      [
+        "for",
+        4
+      ],
+      [
+        "my",
+        4
+      ],
+      [
+        "or",
+        4
+      ],
+      [
+        "also",
+        4
+      ]
+    ],
+    "noisy_examples": []
+  }
+}

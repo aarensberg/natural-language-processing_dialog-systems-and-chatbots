@@ -1,0 +1,118 @@
+{
+  "num_pairs": 59,
+  "num_conversations": 15,
+  "vocab_size": 421,
+  "avg_source_length": 13.19,
+  "avg_target_length": 11.27,
+  "median_source_length": 13,
+  "median_target_length": 12,
+  "top_tokens": [
+    [
+      ".",
+      112
+    ],
+    [
+      "i",
+      93
+    ],
+    [
+      "corpus",
+      59
+    ],
+    [
+      "personachat",
+      50
+    ],
+    [
+      "a",
+      36
+    ],
+    [
+      "you",
+      35
+    ],
+    [
+      "?",
+      34
+    ],
+    [
+      ",",
+      34
+    ],
+    [
+      "do",
+      27
+    ],
+    [
+      "is",
+      27
+    ],
+    [
+      "my",
+      23
+    ],
+    [
+      "am",
+      23
+    ],
+    [
+      "to",
+      19
+    ],
+    [
+      "have",
+      18
+    ],
+    [
+      "that",
+      18
+    ],
+    [
+      "not",
+      17
+    ],
+    [
+      "what",
+      15
+    ],
+    [
+      "like",
+      15
+    ],
+    [
+      "the",
+      14
+    ],
+    [
+      "and",
+      14
+    ]
+  ],
+  "noisy_examples": [
+    {
+      "source": "corpus cornell No, no, it's my fault -- we didn't have a proper introduction ---",
+      "target": "Cameron.",
+      "reason": "very_short"
+    },
+    {
+      "source": "corpus cornell Gosh, if only we could find Kat a boyfriend...",
+      "target": "Let me see what I can do.",
+      "reason": "punctuation_heavy"
+    },
+    {
+      "source": "corpus cornell There.",
+      "target": "Where?",
+      "reason": "very_short"
+    },
+    {
+      "source": "corpus cornell Not the hacking and gagging and spitting part.  Please.",
+      "target": "Okay... then how 'bout we try out some French cuisine.  Saturday?  Night?",
+      "reason": "punctuation_heavy"
+    },
+    {
+      "source": "corpus cornell How is our little Find the Wench A Date plan progressing?",
+      "target": "Well, there's someone I think might be --",
+      "reason": "punctuation_heavy"
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "num_pairs": 160,
+  "num_conversations": 36,
+  "vocab_size": 831,
+  "avg_source_length": 13.08,
+  "avg_target_length": 11.41,
+  "median_source_length": 13,
+  "median_target_length": 12,
+  "top_tokens": [
+    [
+      ".",
+      287
+    ],
+    [
+      "i",
+      233
+    ],
+    [
+      "corpus",
+      160
+    ],
+    [
+      "personachat",
+      138
+    ],
+    [
+      "you",
+      112
+    ],
+    [
+      "?",
+      103
+    ],
+    [
+      "a",
+      94
+    ],
+    [
+      "to",
+      87
+    ],
+    [
+      ",",
+      83
+    ],
+    [
+      "is",
+      69
+    ],
+    [
+      "do",
+      69
+    ],
+    [
+      "my",
+      64
+    ],
+    [
+      "am",
+      55
+    ],
+    [
+      "have",
+      53
+    ],
+    [
+      "the",
+      45
+    ],
+    [
+      "that",
+      45
+    ],
+    [
+      "!",
+      42
+    ],
+    [
+      "are",
+      40
+    ],
+    [
+      "and",
+      39
+    ],
+    [
+      "like",
+      36
+    ]
+  ],
+  "noisy_examples": [
+    {
+      "source": "corpus cornell No, no, it's my fault -- we didn't have a proper introduction ---",
+      "target": "Cameron.",
+      "reason": "very_short"
+    },
+    {
+      "source": "corpus cornell How is our little Find the Wench A Date plan progressing?",
+      "target": "Well, there's someone I think might be --",
+      "reason": "punctuation_heavy"
+    },
+    {
+      "source": "corpus cornell There.",
+      "target": "Where?",
+      "reason": "very_short"
+    },
+    {
+      "source": "corpus cornell Well, no...",
+      "target": "Then that's all you had to say.",
+      "reason": "punctuation_heavy"
+    },
+    {
+      "source": "corpus cornell What crap?",
+      "target": "Me.  This endless ...blonde babble. I'm like, boring myself.",
+      "reason": "punctuation_heavy"
+    }
+  ]
+}

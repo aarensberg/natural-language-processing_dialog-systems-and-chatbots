@@ -1,0 +1,9 @@
+{
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 1.9471119244893391,
+      "valid_loss": 0.0
+    }
+  ]
+}

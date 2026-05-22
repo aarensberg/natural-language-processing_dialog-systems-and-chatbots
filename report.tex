@@ -39,10 +39,14 @@ The improved model replaces the baseline encoder with a multi-layer bi-direction
 Pretrained word embeddings are optionally loaded from the extracted GloVe vectors. The current setup uses the 2024 wiki-giga embedding file extracted under the data directory, and the loader reports vocabulary coverage before training starts.
 
 \section{Multiple Datasets and Domain Effects}
-The codebase is already structured to support additional dialogue corpora such as PersonaChat, DailyDialog, EmpatheticDialogues, and OpenSubtitles. The current report focuses on Cornell as the main baseline, but the architecture and preprocessing pipeline are designed so that dataset-specific tone, vocabulary, and noise levels can be compared later without changing the model code.
+Exercise 3 is now implemented as a multi-dataset pipeline in \texttt{src/pipeline\_ex3.py}. The current comparison trains the same attention-based seq2seq model on Cornell only and on Cornell plus PersonaChat. To make the domain signal explicit, each source utterance is prefixed with a corpus tag, so the model can condition on whether the example comes from Cornell or PersonaChat without changing the core architecture.
+
+PersonaChat is parsed directly from the extracted raw text files under \texttt{data/personachat/}. Each corpus is split by conversation to reduce leakage, and the pipeline writes separate EDA summaries, token-length plots, sample conversations, and per-domain BLEU/distinct metrics under \texttt{artifacts/exercise3/}.
+
+A local MPS smoke test on capped data confirmed that both the Cornell-only and Cornell+PersonaChat experiments run end to end and produce the expected comparison artifacts. The full T4 Colab run is prepared in \texttt{scripts/colab.ipynb} and is the source of the final Exercise 3 numbers.
 
 \section{Memory, Personality, and Feedback}
-These components are part of the coursework scope and remain to be implemented as structured mechanisms rather than ad hoc prompts. The current codebase keeps the architecture modular so that memory, persona conditioning, and feedback adaptation can be added without changing the core seq2seq training loop.
+These components are part of the coursework scope and remain to be implemented as structured mechanisms rather than ad hoc prompts. The current codebase keeps the architecture modular so that memory, persona conditioning, and feedback adaptation can be added without changing the core seq2seq training loop. Exercise 3 already demonstrates how a domain-specific data change can alter chatbot tone and reliability without modifying the generator architecture itself.
 
 \section{Evaluation and Results}
 Two runs were executed to validate the improved pipeline. A smoke test on 100 conversations confirmed that the attention-based model, GloVe loading, and the three decoding paths all execute end-to-end. With the extracted GloVe file, coverage reached 89.6\% on the smoke vocabulary and 93.0\% on the full Cornell vocabulary. The smoke run produced the following metrics: train loss 4.4823, validation loss 3.1685, test loss 3.4739, with corresponding perplexities 88.4359, 23.7708, and 32.2609.
@@ -61,6 +65,6 @@ The smoke samples already reveal typical chatbot failure modes: repeated \texttt
 The current system is still a word-level seq2seq model and therefore cannot maintain long-term context or robust factual grounding. Movie dialogue also induces stylistic bias and dramatic responses. Future work should add memory, persona control, feedback storage, and stronger evaluation metrics such as BLEU and distinct-n to better characterize quality and diversity.
 
 \section{Conclusion}
-The project now includes a reproducible PyTorch baseline, an improved attention-based chatbot, pretrained embedding support, and multiple decoding strategies. The Colab results give a stronger final reference point for the report, and the matched no-GloVe run provides a clean ablation baseline, while remaining extension work is centered on memory, persona, and feedback behavior.
+The project now includes a reproducible PyTorch baseline, an improved attention-based chatbot, pretrained embedding support, multiple decoding strategies, and a dedicated Exercise 3 pipeline for domain-effect analysis. The Colab results give a stronger final reference point for Exercise 2, and the new Ex3 pipeline is ready for a T4 run comparing Cornell only against Cornell plus PersonaChat.
 
 \end{document}

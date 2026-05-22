@@ -1,0 +1,224 @@
+{
+  "train": {
+    "num_pairs": 6,
+    "num_conversations": 5,
+    "vocab_size": 61,
+    "avg_source_length": 12.5,
+    "avg_target_length": 4.67,
+    "median_source_length": 15,
+    "median_target_length": 3,
+    "top_tokens": [
+      [
+        ".",
+        14
+      ],
+      [
+        "corpus",
+        6
+      ],
+      [
+        "cornell",
+        6
+      ],
+      [
+        "-",
+        5
+      ],
+      [
+        "?",
+        3
+      ],
+      [
+        ",",
+        3
+      ],
+      [
+        "a",
+        3
+      ],
+      [
+        "you're",
+        2
+      ],
+      [
+        "me",
+        2
+      ],
+      [
+        "that's",
+        2
+      ],
+      [
+        "forget",
+        2
+      ],
+      [
+        "no",
+        2
+      ],
+      [
+        "it's",
+        2
+      ],
+      [
+        "my",
+        2
+      ],
+      [
+        "we",
+        2
+      ],
+      [
+        "see",
+        2
+      ],
+      [
+        "asking",
+        1
+      ],
+      [
+        "out",
+        1
+      ],
+      [
+        "so",
+        1
+      ],
+      [
+        "cute",
+        1
+      ]
+    ],
+    "noisy_examples": [
+      {
+        "source": "corpus cornell No, no, it's my fault -- we didn't have a proper introduction ---",
+        "target": "Cameron.",
+        "reason": "very_short"
+      },
+      {
+        "source": "corpus cornell Gosh, if only we could find Kat a boyfriend...",
+        "target": "Let me see what I can do.",
+        "reason": "punctuation_heavy"
+      },
+      {
+        "source": "corpus cornell There.",
+        "target": "Where?",
+        "reason": "very_short"
+      }
+    ]
+  },
+  "valid": {
+    "num_pairs": 0,
+    "num_conversations": 0,
+    "vocab_size": 0,
+    "avg_source_length": 0.0,
+    "avg_target_length": 0.0,
+    "median_source_length": 0,
+    "median_target_length": 0,
+    "top_tokens": [],
+    "noisy_examples": []
+  },
+  "test": {
+    "num_pairs": 3,
+    "num_conversations": 2,
+    "vocab_size": 50,
+    "avg_source_length": 14.67,
+    "avg_target_length": 13.0,
+    "median_source_length": 14,
+    "median_target_length": 11,
+    "top_tokens": [
+      [
+        ".",
+        9
+      ],
+      [
+        "and",
+        4
+      ],
+      [
+        "corpus",
+        3
+      ],
+      [
+        "cornell",
+        3
+      ],
+      [
+        ",",
+        3
+      ],
+      [
+        "the",
+        3
+      ],
+      [
+        "?",
+        3
+      ],
+      [
+        "well",
+        2
+      ],
+      [
+        "i",
+        2
+      ],
+      [
+        "with",
+        2
+      ],
+      [
+        "okay",
+        2
+      ],
+      [
+        "not",
+        2
+      ],
+      [
+        "hacking",
+        2
+      ],
+      [
+        "gagging",
+        2
+      ],
+      [
+        "spitting",
+        2
+      ],
+      [
+        "part",
+        2
+      ],
+      [
+        "please",
+        2
+      ],
+      [
+        "how",
+        2
+      ],
+      [
+        "-",
+        2
+      ],
+      [
+        "thought",
+        1
+      ]
+    ],
+    "noisy_examples": [
+      {
+        "source": "corpus cornell Not the hacking and gagging and spitting part.  Please.",
+        "target": "Okay... then how 'bout we try out some French cuisine.  Saturday?  Night?",
+        "reason": "punctuation_heavy"
+      },
+      {
+        "source": "corpus cornell How is our little Find the Wench A Date plan progressing?",
+        "target": "Well, there's someone I think might be --",
+        "reason": "punctuation_heavy"
+      }
+    ]
+  }
+}

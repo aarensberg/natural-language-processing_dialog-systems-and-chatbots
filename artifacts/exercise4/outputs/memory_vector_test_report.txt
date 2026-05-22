@@ -1,0 +1,29 @@
+Exercise 4 memory comparison
+================================
+
+Accuracy: 1.0 (4/4)
+
+Case: name_paraphrase
+Turns: ["My name is Ana.", "What name should you use for me?"]
+Baseline: i don't know.
+Memory: Your name is Ana.
+Passed: True
+------------------------------------------------------------------------
+Case: location_paraphrase
+Turns: ["I live in Lyon.", "Which city am I from?"]
+Baseline: i. from the city.
+Memory: You live in Lyon.
+Passed: True
+------------------------------------------------------------------------
+Case: preference_paraphrase
+Turns: ["I love pizza.", "What do I enjoy?"]
+Baseline: i like to.
+Memory: You like pizza.
+Passed: True
+------------------------------------------------------------------------
+Case: identity_paraphrase
+Turns: ["I am learning piano.", "What did I mention earlier?"]
+Baseline: i was a.
+Memory: You said: I am learning piano.
+Passed: True
+------------------------------------------------------------------------

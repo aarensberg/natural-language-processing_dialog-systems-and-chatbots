@@ -5,6 +5,7 @@ import uvicorn
 import torch
 
 from src.feedback_ex6 import FeedbackStore, apply_feedback
+from src.safety import refusal_message, should_refuse
 from src.vocab import Vocabulary
 from src.model import Seq2SeqChatbot
 from src import config
@@ -67,6 +68,8 @@ def startup():
 def infer(req: InferRequest):
     if not req.query:
         raise HTTPException(status_code=400, detail="Empty query")
+    if should_refuse(req.query):
+        return {"response": refusal_message()}
     # tensorize and decode using model methods
     source_tokens = vocabulary.encode(tokenize(req.query), add_eos=True)
     source_ids = torch.tensor([source_tokens], dtype=torch.long)

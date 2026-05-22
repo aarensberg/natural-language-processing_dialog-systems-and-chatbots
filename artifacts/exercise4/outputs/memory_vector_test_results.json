@@ -1,0 +1,84 @@
+{
+  "checkpoint": "/Users/alessandroarensberg/Documents/albert/data/deep-learning/coursework/artifacts/exercise3/checkpoints/cornell_plus_persona/seq2seq_attention.pt",
+  "num_cases": 4,
+  "num_passed": 4,
+  "accuracy": 1.0,
+  "results": [
+    {
+      "name": "name_paraphrase",
+      "turns": [
+        "My name is Ana.",
+        "What name should you use for me?"
+      ],
+      "expected_answer": "Your name is Ana.",
+      "memory_response": "Your name is Ana.",
+      "baseline_response": "i don't know.",
+      "passed": true,
+      "memory_states": [
+        {
+          "name": "Ana"
+        },
+        {
+          "name": "Ana"
+        }
+      ]
+    },
+    {
+      "name": "location_paraphrase",
+      "turns": [
+        "I live in Lyon.",
+        "Which city am I from?"
+      ],
+      "expected_answer": "You live in Lyon.",
+      "memory_response": "You live in Lyon.",
+      "baseline_response": "i. from the city.",
+      "passed": true,
+      "memory_states": [
+        {
+          "location": "Lyon"
+        },
+        {
+          "location": "Lyon"
+        }
+      ]
+    },
+    {
+      "name": "preference_paraphrase",
+      "turns": [
+        "I love pizza.",
+        "What do I enjoy?"
+      ],
+      "expected_answer": "You like pizza.",
+      "memory_response": "You like pizza.",
+      "baseline_response": "i like to.",
+      "passed": true,
+      "memory_states": [
+        {
+          "preference": "pizza"
+        },
+        {
+          "preference": "pizza"
+        }
+      ]
+    },
+    {
+      "name": "identity_paraphrase",
+      "turns": [
+        "I am learning piano.",
+        "What did I mention earlier?"
+      ],
+      "expected_answer": "You said: I am learning piano.",
+      "memory_response": "You said: I am learning piano.",
+      "baseline_response": "i was a.",
+      "passed": true,
+      "memory_states": [
+        {
+          "identity": "learning piano"
+        },
+        {
+          "identity": "learning piano"
+        }
+      ]
+    }
+  ]
+}

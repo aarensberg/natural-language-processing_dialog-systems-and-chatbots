@@ -122,13 +122,15 @@ The pipeline writes comparison outputs, domain-specific metrics, plots, and samp
 
 ## Running Exercise 4
 
-Exercise 4 adds a simple but defensible conversational memory layer on top of the existing chatbot. It uses a rule-based memory state for names, locations, preferences, and recent statements, and falls back to the seq2seq model when no direct memory answer is available.
+Exercise 4 adds a simple but defensible conversational memory layer on top of the existing chatbot. It uses a rule-based memory state for names, locations, preferences, and recent statements, and falls back to the seq2seq model when no direct memory answer is available. A small vector-based extension now also handles paraphrased recall questions, and the inference path refuses clearly unsafe prompts with a fixed safety message.
 
 ```bash
 python -m src.pipeline_ex4 --device cpu --output-dir artifacts/exercise4/outputs
 ```
 
 The pipeline compares baseline responses with memory-aware responses on five test cases and writes the results to `artifacts/exercise4/outputs/memory_test_results.json` and `artifacts/exercise4/outputs/memory_test_report.txt`.
+
+The optional vector-memory generalization pass writes `artifacts/exercise4/outputs/memory_vector_test_results.json` and `artifacts/exercise4/outputs/memory_vector_test_report.txt`.
 
 ## Running Exercise 5
 

@@ -6,6 +6,7 @@ import torch
 
 from src import config
 from src.feedback_ex6 import FeedbackStore, apply_feedback
+from src.safety import refusal_message, should_refuse
 from src.text import tokenize, detokenize
 from src.vocab import Vocabulary
 from src.model import Seq2SeqChatbot
@@ -68,6 +69,8 @@ def infer_once(
     query: str,
     method: str = "greedy",
 ) -> str:
+    if should_refuse(query):
+        return refusal_message()
     source_ids, source_length = tensorize_example_local(query, vocabulary, device)
     if method == "greedy":
         gen = model.greedy_decode(

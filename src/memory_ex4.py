@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from collections import Counter
+import math
 import re
 
 _NAME_PATTERNS = (
@@ -28,6 +30,56 @@ def _clean_value(value: str) -> str:
     value = value.strip().rstrip(".?!,;")
     value = re.sub(r"\s+", " ", value)
     return value
+
+
+def _vectorize(text: str) -> Counter[str]:
+    tokens = re.findall(r"[a-z0-9]+", text.lower())
+    return Counter(tokens)
+
+
+def _cosine_similarity(left: str, right: str) -> float:
+    left_vec = _vectorize(left)
+    right_vec = _vectorize(right)
+    if not left_vec or not right_vec:
+        return 0.0
+    shared = set(left_vec) & set(right_vec)
+    numerator = float(sum(left_vec[token] * right_vec[token] for token in shared))
+    left_norm = math.sqrt(sum(value * value for value in left_vec.values()))
+    right_norm = math.sqrt(sum(value * value for value in right_vec.values()))
+    if not left_norm or not right_norm:
+        return 0.0
+    return numerator / (left_norm * right_norm)
+
+
+_VECTOR_QUERIES = {
+    "name": (
+        "what is my name",
+        "what name should you use for me",
+        "which name do i use",
+        "who am i",
+        "remember my name",
+    ),
+    "location": (
+        "where do i live",
+        "what city do i live in",
+        "which city am i from",
+        "where am i from",
+        "what is my location",
+    ),
+    "preference": (
+        "what do i like",
+        "what do i love",
+        "what do i enjoy",
+        "what do i prefer",
+        "what is my favorite thing",
+    ),
+    "identity": (
+        "what did i tell you",
+        "what did i mention earlier",
+        "what did i say",
+        "do you remember what i said",
+    ),
+}
 
 
 @dataclass
@@ -67,6 +119,35 @@ class MemoryState:
     def reset(self) -> None:
         self.facts.clear()
         self.history.clear()
+
+    def vector_answer(self, text: str, *, min_similarity: float = 0.22) -> str | None:
+        if not self.facts:
+            return None
+
+        lowered = text.lower().strip()
+        best_kind = None
+        best_score = 0.0
+        for kind, prompts in _VECTOR_QUERIES.items():
+            for prompt in prompts:
+                score = _cosine_similarity(lowered, prompt)
+                if score > best_score:
+                    best_kind = kind
+                    best_score = score
+
+        if best_kind is None or best_score < min_similarity:
+            return None
+
+        if best_kind == "name" and self.facts.get("name"):
+            return f"Your name is {self.facts['name']}."
+        if best_kind == "location" and self.facts.get("location"):
+            return f"You live in {self.facts['location']}."
+        if best_kind == "preference" and self.facts.get("preference"):
+            return f"You like {self.facts['preference']}."
+        if best_kind == "identity" and self.history:
+            remembered_index = -2 if len(self.history) >= 2 else -1
+            remembered = self.history[remembered_index].strip().rstrip(".?!,")
+            return f"You said: {remembered}."
+        return None
 
     def summarize(self) -> str:
         if not self.facts:
@@ -128,6 +209,10 @@ def answer_from_memory(text: str, memory: MemoryState) -> str | None:
             + "; ".join(f"{key}={value}" for key, value in sorted(memory.facts.items()))
             + "."
         )
+
+    vector_answer = memory.vector_answer(text)
+    if vector_answer is not None:
+        return vector_answer
 
     return None
 

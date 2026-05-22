@@ -202,6 +202,22 @@ This generates:
 
 On the current run, the protocol reported positive paraphrase coverage of 0.882, a false-positive rate of 0.167 on negative controls, and overall accuracy of 0.870. The observed failure cases were concentrated in the self-description category and one unrelated control query that produced a false positive.
 
+## Running Exercise 7
+
+Exercise 7 aggregates the complete system evaluation, ablation study, and error analysis from the existing artifacts. It compares the baseline model, the improved attention-based model, and the memory, persona, and feedback variants.
+
+```bash
+python -m src.evaluate_ex7
+```
+
+The protocol writes the following files under `artifacts/exercise7/outputs/`:
+
+- `ex7_summary.json`
+- `ex7_report.txt`
+- `ex7_examples.txt`
+
+The summary covers baseline versus improved metrics, memory/persona/feedback accuracy, dataset and component ablations, and a five-case failure analysis focused on the feedback loop. The current run highlights the expected trend: the improved model lowers loss relative to the baseline, memory and persona achieve perfect scores on their targeted test sets, and feedback improves coverage but still shows a small false-positive risk on unrelated queries.
+
 Recommended Colab flow on a T4 GPU:
 
 ```bash

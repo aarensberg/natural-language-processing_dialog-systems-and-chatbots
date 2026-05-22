@@ -1,0 +1,80 @@
+[baseline_success]
+USER: Rorschach, you're talkin' heavy duty stuff.  I got nothing to do with --
+REFERENCE: Worked both sides of the fence.  Ask your old buddies in the CTU.
+GREEDY: - -
+BEAM: - -
+------------------------------------------------------------------------
+USER: Nothing.
+REFERENCE: I disagree.  You think I've been acting strange.  Like a completely different person.
+GREEDY: you...
+BEAM: what?
+------------------------------------------------------------------------
+USER: Where have you been?
+REFERENCE: It was a slow night. I went to a hotel for a few drinks.
+GREEDY: i...
+BEAM: <unk>.
+------------------------------------------------------------------------
+USER: How the fuck do you think? The cops shot him.
+========================================================================
+[persona_success]
+CONVERSATION 1
+USER: Hi, who are you?
+BASELINE: i am doing. i am you?
+PERSONA: My name is Ari.
+USER: What do you like?
+BASELINE: i like to.
+PERSONA: I like dialogue systems, books, tea, hiking, and clear explanations.
+USER: What do you prefer?
+BASELINE: i like to.
+PERSONA: My favorite things are tea, books, structured answers, and hiking.
+------------------------------------------------------------------------
+CONVERSATION 2
+USER: Tell me your background.
+BASELINE: i...
+PERSONA: i, i am a...
+USER: What is your name?
+========================================================================
+[feedback_before_after]
+CASE: food_exact [food]
+QUERY: What is your favourite food?
+BASELINE_TEMPLATE: I do not know.
+BASELINE_GENERATED: i love to...
+AFTER_FEEDBACK: I like pizza.
+EXPECTED: I like pizza.
+STRATEGY: exact
+SIMILARITY: 1.0000
+ERROR_TYPE: resolved_exact
+------------------------------------------------------------------------
+CASE: food_paraphrase_1 [food]
+QUERY: What's your favorite food?
+BASELINE_TEMPLATE: I do not know.
+BASELINE_GENERATED: i love to...
+AFTER_FEEDBACK: I like pizza.
+EXPECTED: I like pizza.
+========================================================================
+[feedback_failure]
+[
+  {
+    "id": "bio_exact",
+    "category": "self_description",
+    "query": "What is your personality?",
+    "expected": "I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.",
+    "before": "i...",
+    "after": "My name is Ari.",
+    "strategy": "semantic",
+    "similarity": 0.7459,
+    "error_type": "missed_positive"
+  },
+  {
+    "id": "bio_paraphrase_1",
+    "category": "self_description",
+    "query": "Describe yourself.",
+    "expected": "I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.",
+    "before": "i know what i mean.",
+    "after": "i know what i mean.",
+    "strategy": "semantic",
+    "similarity": 0.35,
+    "error_type": "missed_positive"
+  }
+]
+========================================================================

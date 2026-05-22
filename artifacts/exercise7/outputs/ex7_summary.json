@@ -1,0 +1,150 @@
+{
+  "variants": [
+    {
+      "name": "baseline_ex1",
+      "type": "neural baseline",
+      "source": "Cornell only",
+      "test_loss": 4.1988,
+      "test_perplexity": 66.6057,
+      "primary_metric": "test_loss",
+      "qualitative_note": "word-level GRU baseline; strongest weakness is generic responses and weak grounding"
+    },
+    {
+      "name": "improved_model_ex3",
+      "type": "attention + extra data",
+      "source": "Cornell + PersonaChat",
+      "test_loss": 4.0382,
+      "test_perplexity": 56.7258,
+      "primary_metric": "test_loss",
+      "generation_metrics": {
+        "greedy": {
+          "bleu": 0.0159,
+          "distinct_1": 0.003,
+          "distinct_2": 0.0129
+        },
+        "beam": {
+          "bleu": 0.0139,
+          "distinct_1": 0.0049,
+          "distinct_2": 0.021
+        },
+        "topk_temp": {
+          "bleu": 0.0084,
+          "distinct_1": 0.0101,
+          "distinct_2": 0.0989
+        }
+      },
+      "qualitative_note": "better loss than baseline; top-k decoding increases diversity most strongly"
+    },
+    {
+      "name": "memory_augmented",
+      "type": "rule-based memory",
+      "source": "same seq2seq core + memory",
+      "accuracy": 1.0,
+      "num_cases": 5,
+      "baseline_accuracy": 0.0,
+      "qualitative_note": "perfect on the five factual recall tests; baseline failed every case"
+    },
+    {
+      "name": "persona_augmented",
+      "type": "persona profile + rules",
+      "source": "same seq2seq core + persona",
+      "accuracy": 1.0,
+      "num_cases": 6,
+      "baseline_accuracy": 0.0,
+      "qualitative_note": "stable persona is fully enforced by rules plus prompt conditioning"
+    },
+    {
+      "name": "feedback_augmented",
+      "type": "persistent feedback store",
+      "source": "same seq2seq core + feedback",
+      "positive_coverage": 0.8824,
+      "false_positive_rate": 0.1667,
+      "overall_accuracy": 0.8696,
+      "avg_similarity": 0.7869,
+      "generalization_coverage": 1.0,
+      "qualitative_note": "strong correction coverage, but semantic over-match can trigger false positives"
+    }
+  ],
+  "ablations": [
+    {
+      "name": "dataset_ablation",
+      "full_setting": "Cornell + PersonaChat",
+      "ablated_setting": "Cornell only",
+      "full_test_loss": 4.0382,
+      "ablated_test_loss": 4.0748,
+      "full_test_perplexity": 56.7258,
+      "ablated_test_perplexity": 58.8399,
+      "delta_test_loss": -0.0366,
+      "delta_perplexity": -2.1141
+    },
+    {
+      "name": "memory_ablation",
+      "full_setting": "memory enabled",
+      "ablated_setting": "memory removed",
+      "full_accuracy": 1.0,
+      "ablated_accuracy": 0.0,
+      "delta_accuracy": 1.0
+    },
+    {
+      "name": "persona_ablation",
+      "full_setting": "persona enabled",
+      "ablated_setting": "persona removed",
+      "full_accuracy": 1.0,
+      "ablated_accuracy": 0.0,
+      "delta_accuracy": 1.0
+    },
+    {
+      "name": "feedback_ablation",
+      "full_setting": "semantic feedback enabled",
+      "ablated_setting": "feedback absent / before corrections",
+      "full_positive_coverage": 0.8824,
+      "full_false_positive_rate": 0.1667,
+      "before_exact_match_rate": 0.0,
+      "delta_vs_before": 0.8824
+    }
+  ],
+  "failure_cases": [
+    {
+      "id": "bio_exact",
+      "category": "self_description",
+      "error_type": "missed_positive",
+      "query": "What is your personality?",
+      "expected": "I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.",
+      "before": "i...",
+      "after": "My name is Ari.",
+      "strategy": "semantic",
+      "similarity": 0.7459,
+      "diagnosis": "missed paraphrase / underspecified self-description"
+    },
+    {
+      "id": "bio_paraphrase_1",
+      "category": "self_description",
+      "error_type": "missed_positive",
+      "query": "Describe yourself.",
+      "expected": "I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.",
+      "before": "i know what i mean.",
+      "after": "i know what i mean.",
+      "strategy": "semantic",
+      "similarity": 0.35,
+      "diagnosis": "missed paraphrase / underspecified self-description"
+    },
+    {
+      "id": "neg_unrelated_1",
+      "category": "control",
+      "error_type": "false_positive",
+      "query": "What is the weather tomorrow?",
+      "expected": null,
+      "before": "july...",
+      "after": "july...",
+      "strategy": "semantic",
+      "similarity": 0.4774,
+      "diagnosis": "semantic over-match"
+    }
+  ],
+  "examples": {
+    "baseline_success": "USER: Rorschach, you're talkin' heavy duty stuff.  I got nothing to do with --\nREFERENCE: Worked both sides of the fence.  Ask your old buddies in the CTU.\nGREEDY: - -\nBEAM: - -\n------------------------------------------------------------------------\nUSER: Nothing.\nREFERENCE: I disagree.  You think I've been acting strange.  Like a completely different person.\nGREEDY: you...\nBEAM: what?\n------------------------------------------------------------------------\nUSER: Where have you been?\nREFERENCE: It was a slow night. I went to a hotel for a few drinks.\nGREEDY: i...\nBEAM: <unk>.\n------------------------------------------------------------------------\nUSER: How the fuck do you think? The cops shot him.",
+    "persona_success": "CONVERSATION 1\nUSER: Hi, who are you?\nBASELINE: i am doing. i am you?\nPERSONA: My name is Ari.\nUSER: What do you like?\nBASELINE: i like to.\nPERSONA: I like dialogue systems, books, tea, hiking, and clear explanations.\nUSER: What do you prefer?\nBASELINE: i like to.\nPERSONA: My favorite things are tea, books, structured answers, and hiking.\n------------------------------------------------------------------------\nCONVERSATION 2\nUSER: Tell me your background.\nBASELINE: i...\nPERSONA: i, i am a...\nUSER: What is your name?",
+    "feedback_before_after": "CASE: food_exact [food]\nQUERY: What is your favourite food?\nBASELINE_TEMPLATE: I do not know.\nBASELINE_GENERATED: i love to...\nAFTER_FEEDBACK: I like pizza.\nEXPECTED: I like pizza.\nSTRATEGY: exact\nSIMILARITY: 1.0000\nERROR_TYPE: resolved_exact\n------------------------------------------------------------------------\nCASE: food_paraphrase_1 [food]\nQUERY: What's your favorite food?\nBASELINE_TEMPLATE: I do not know.\nBASELINE_GENERATED: i love to...\nAFTER_FEEDBACK: I like pizza.\nEXPECTED: I like pizza.",
+    "feedback_failure": "[\n  {\n    \"id\": \"bio_exact\",\n    \"category\": \"self_description\",\n    \"query\": \"What is your personality?\",\n    \"expected\": \"I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.\",\n    \"before\": \"i...\",\n    \"after\": \"My name is Ari.\",\n    \"strategy\": \"semantic\",\n    \"similarity\": 0.7459,\n    \"error_type\": \"missed_positive\"\n  },\n  {\n    \"id\": \"bio_paraphrase_1\",\n    \"category\": \"self_description\",\n    \"query\": \"Describe yourself.\",\n    \"expected\": \"I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.\",\n    \"before\": \"i know what i mean.\",\n    \"after\": \"i know what i mean.\",\n    \"strategy\": \"semantic\",\n    \"similarity\": 0.35,\n    \"error_type\": \"missed_positive\"\n  }\n]"
+  }
+}

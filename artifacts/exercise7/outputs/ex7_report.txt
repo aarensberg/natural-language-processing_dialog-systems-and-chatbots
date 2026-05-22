@@ -1,0 +1,186 @@
+Exercise 7 evaluation, ablation, and error analysis
+=======================================================
+
+Variant comparison
+------------------
+Name: baseline_ex1
+Type: neural baseline
+Source: Cornell only
+Test loss: 4.1988
+Test perplexity: 66.6057
+Note: word-level GRU baseline; strongest weakness is generic responses and weak grounding
+
+Name: improved_model_ex3
+Type: attention + extra data
+Source: Cornell + PersonaChat
+Test loss: 4.0382
+Test perplexity: 56.7258
+Greedy BLEU / distinct-2: 0.0159 / 0.0129
+Top-k BLEU / distinct-2: 0.0084 / 0.0989
+Note: better loss than baseline; top-k decoding increases diversity most strongly
+
+Name: memory_augmented
+Type: rule-based memory
+Source: same seq2seq core + memory
+Accuracy: 1.0000
+Baseline accuracy: 0.0000
+Note: perfect on the five factual recall tests; baseline failed every case
+
+Name: persona_augmented
+Type: persona profile + rules
+Source: same seq2seq core + persona
+Accuracy: 1.0000
+Baseline accuracy: 0.0000
+Note: stable persona is fully enforced by rules plus prompt conditioning
+
+Name: feedback_augmented
+Type: persistent feedback store
+Source: same seq2seq core + feedback
+Positive coverage: 0.8824
+False positive rate: 0.1667
+Overall accuracy: 0.8696
+Average similarity: 0.7869
+Generalization coverage: 1.0000
+Note: strong correction coverage, but semantic over-match can trigger false positives
+
+Ablation study
+--------------
+Name: dataset_ablation
+Full setting: Cornell + PersonaChat
+Ablated setting: Cornell only
+full_test_loss: 4.0382
+ablated_test_loss: 4.0748
+full_test_perplexity: 56.7258
+ablated_test_perplexity: 58.8399
+delta_test_loss: -0.0366
+delta_perplexity: -2.1141
+
+Name: memory_ablation
+Full setting: memory enabled
+Ablated setting: memory removed
+full_accuracy: 1.0
+ablated_accuracy: 0.0
+delta_accuracy: 1.0
+
+Name: persona_ablation
+Full setting: persona enabled
+Ablated setting: persona removed
+full_accuracy: 1.0
+ablated_accuracy: 0.0
+delta_accuracy: 1.0
+
+Name: feedback_ablation
+Full setting: semantic feedback enabled
+Ablated setting: feedback absent / before corrections
+full_positive_coverage: 0.8824
+full_false_positive_rate: 0.1667
+before_exact_match_rate: 0.0
+delta_vs_before: 0.8824
+
+Failure analysis
+---------------
+[missed_positive] bio_exact (self_description)
+Query: What is your personality?
+Expected: I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.
+Before: i...
+After: My name is Ari.
+Strategy: semantic | Similarity: 0.7459
+Diagnosis: missed paraphrase / underspecified self-description
+
+[missed_positive] bio_paraphrase_1 (self_description)
+Query: Describe yourself.
+Expected: I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.
+Before: i know what i mean.
+After: i know what i mean.
+Strategy: semantic | Similarity: 0.35
+Diagnosis: missed paraphrase / underspecified self-description
+
+[false_positive] neg_unrelated_1 (control)
+Query: What is the weather tomorrow?
+Expected: None
+Before: july...
+After: july...
+Strategy: semantic | Similarity: 0.4774
+Diagnosis: semantic over-match
+
+Qualitative examples
+--------------------
+Example block: baseline_success
+USER: Rorschach, you're talkin' heavy duty stuff.  I got nothing to do with --
+REFERENCE: Worked both sides of the fence.  Ask your old buddies in the CTU.
+GREEDY: - -
+BEAM: - -
+------------------------------------------------------------------------
+USER: Nothing.
+REFERENCE: I disagree.  You think I've been acting strange.  Like a completely different person.
+GREEDY: you...
+BEAM: what?
+------------------------------------------------------------------------
+USER: Where have you been?
+REFERENCE: It was a slow night. I went to a hotel for a few drinks.
+GREEDY: i...
+BEAM: <unk>.
+------------------------------------------------------------------------
+USER: How the fuck do you think? The cops shot him.
+
+Example block: persona_success
+CONVERSATION 1
+USER: Hi, who are you?
+BASELINE: i am doing. i am you?
+PERSONA: My name is Ari.
+USER: What do you like?
+BASELINE: i like to.
+PERSONA: I like dialogue systems, books, tea, hiking, and clear explanations.
+USER: What do you prefer?
+BASELINE: i like to.
+PERSONA: My favorite things are tea, books, structured answers, and hiking.
+------------------------------------------------------------------------
+CONVERSATION 2
+USER: Tell me your background.
+BASELINE: i...
+PERSONA: i, i am a...
+USER: What is your name?
+
+Example block: feedback_before_after
+CASE: food_exact [food]
+QUERY: What is your favourite food?
+BASELINE_TEMPLATE: I do not know.
+BASELINE_GENERATED: i love to...
+AFTER_FEEDBACK: I like pizza.
+EXPECTED: I like pizza.
+STRATEGY: exact
+SIMILARITY: 1.0000
+ERROR_TYPE: resolved_exact
+------------------------------------------------------------------------
+CASE: food_paraphrase_1 [food]
+QUERY: What's your favorite food?
+BASELINE_TEMPLATE: I do not know.
+BASELINE_GENERATED: i love to...
+AFTER_FEEDBACK: I like pizza.
+EXPECTED: I like pizza.
+
+Example block: feedback_failure
+[
+  {
+    "id": "bio_exact",
+    "category": "self_description",
+    "query": "What is your personality?",
+    "expected": "I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.",
+    "before": "i...",
+    "after": "My name is Ari.",
+    "strategy": "semantic",
+    "similarity": 0.7459,
+    "error_type": "missed_positive"
+  },
+  {
+    "id": "bio_paraphrase_1",
+    "category": "self_description",
+    "query": "Describe yourself.",
+    "expected": "I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.",
+    "before": "i know what i mean.",
+    "after": "i know what i mean.",
+    "strategy": "semantic",
+    "similarity": 0.35,
+    "error_type": "missed_positive"
+  }
+]

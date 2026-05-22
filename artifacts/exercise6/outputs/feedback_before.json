@@ -1,0 +1,42 @@
+[
+  {
+    "user_query": "What's your favorite food?",
+    "baseline_response": "I do not know."
+  },
+  {
+    "user_query": "Which city are you living in?",
+    "baseline_response": "I don't have one."
+  },
+  {
+    "user_query": "Tell me your job.",
+    "baseline_response": "I am not sure."
+  },
+  {
+    "user_query": "Favorite drink?",
+    "baseline_response": "I like many things."
+  },
+  {
+    "user_query": "Who are you?",
+    "baseline_response": "I don't remember."
+  },
+  {
+    "user_query": "Could you tell me what food you like most?",
+    "baseline_response": "I do not know."
+  },
+  {
+    "user_query": "In which city are you based?",
+    "baseline_response": "I don't have one."
+  },
+  {
+    "user_query": "What do you do for work?",
+    "baseline_response": "I am not sure."
+  },
+  {
+    "user_query": "What drink do you prefer?",
+    "baseline_response": "I like many things."
+  },
+  {
+    "user_query": "Tell me your name.",
+    "baseline_response": "I don't remember."
+  }
+]

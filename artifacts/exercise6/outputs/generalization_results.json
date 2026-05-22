@@ -1,0 +1,178 @@
+{
+  "stats": {
+    "total_paraphrases": 15,
+    "matched": 15,
+    "exact_matches": 14,
+    "semantic_matches": 1,
+    "unmatched": 0,
+    "coverage": 1.0,
+    "avg_similarity": 0.9941194968553458
+  },
+  "details": [
+    {
+      "canonical": "What is your favourite food?",
+      "paraphrase": "What's your favorite food?",
+      "correction_found": "I like pizza.",
+      "expected": "I like pizza.",
+      "strategy": "exact",
+      "similarity": 1.0,
+      "matched": true,
+      "direct_hit": true,
+      "semantic_hit": false
+    },
+    {
+      "canonical": "What is your favourite food?",
+      "paraphrase": "What's your favourite food?",
+      "correction_found": "I like pizza.",
+      "expected": "I like pizza.",
+      "strategy": "semantic",
+      "similarity": 0.9118,
+      "matched": true,
+      "direct_hit": false,
+      "semantic_hit": true
+    },
+    {
+      "canonical": "What is your favourite food?",
+      "paraphrase": "Could you tell me what food you like most?",
+      "correction_found": "I like pizza.",
+      "expected": "I like pizza.",
+      "strategy": "exact",
+      "similarity": 1.0,
+      "matched": true,
+      "direct_hit": true,
+      "semantic_hit": false
+    },
+    {
+      "canonical": "What city do you live in?",
+      "paraphrase": "Which city are you living in?",
+      "correction_found": "I live in Lyon.",
+      "expected": "I live in Lyon.",
+      "strategy": "exact",
+      "similarity": 1.0,
+      "matched": true,
+      "direct_hit": true,
+      "semantic_hit": false
+    },
+    {
+      "canonical": "What city do you live in?",
+      "paraphrase": "What city do you live in?",
+      "correction_found": "I live in Lyon.",
+      "expected": "I live in Lyon.",
+      "strategy": "exact",
+      "similarity": 1.0,
+      "matched": true,
+      "direct_hit": true,
+      "semantic_hit": false
+    },
+    {
+      "canonical": "What city do you live in?",
+      "paraphrase": "In which city are you based?",
+      "correction_found": "I live in Lyon.",
+      "expected": "I live in Lyon.",
+      "strategy": "exact",
+      "similarity": 1.0,
+      "matched": true,
+      "direct_hit": true,
+      "semantic_hit": false
+    },
+    {
+      "canonical": "What's your job?",
+      "paraphrase": "Tell me your job.",
+      "correction_found": "I am a calm chatbot research assistant.",
+      "expected": "I am a calm chatbot research assistant.",
+      "strategy": "exact",
+      "similarity": 1.0,
+      "matched": true,
+      "direct_hit": true,
+      "semantic_hit": false
+    },
+    {
+      "canonical": "What's your job?",
+      "paraphrase": "What's your job?",
+      "correction_found": "I am a calm chatbot research assistant.",
+      "expected": "I am a calm chatbot research assistant.",
+      "strategy": "exact",
+      "similarity": 1.0,
+      "matched": true,
+      "direct_hit": true,
+      "semantic_hit": false
+    },
+    {
+      "canonical": "What's your job?",
+      "paraphrase": "What do you do for work?",
+      "correction_found": "I am a calm chatbot research assistant.",
+      "expected": "I am a calm chatbot research assistant.",
+      "strategy": "exact",
+      "similarity": 1.0,
+      "matched": true,
+      "direct_hit": true,
+      "semantic_hit": false
+    },
+    {
+      "canonical": "What's your favourite drink?",
+      "paraphrase": "Favorite drink?",
+      "correction_found": "I prefer tea.",
+      "expected": "I prefer tea.",
+      "strategy": "exact",
+      "similarity": 1.0,
+      "matched": true,
+      "direct_hit": true,
+      "semantic_hit": false
+    },
+    {
+      "canonical": "What's your favourite drink?",
+      "paraphrase": "What's your favourite drink?",
+      "correction_found": "I prefer tea.",
+      "expected": "I prefer tea.",
+      "strategy": "exact",
+      "similarity": 1.0,
+      "matched": true,
+      "direct_hit": true,
+      "semantic_hit": false
+    },
+    {
+      "canonical": "What's your favourite drink?",
+      "paraphrase": "What drink do you prefer?",
+      "correction_found": "I prefer tea.",
+      "expected": "I prefer tea.",
+      "strategy": "exact",
+      "similarity": 1.0,
+      "matched": true,
+      "direct_hit": true,
+      "semantic_hit": false
+    },
+    {
+      "canonical": "What is your name?",
+      "paraphrase": "Who are you?",
+      "correction_found": "My name is Ari.",
+      "expected": "My name is Ari.",
+      "strategy": "exact",
+      "similarity": 1.0,
+      "matched": true,
+      "direct_hit": true,
+      "semantic_hit": false
+    },
+    {
+      "canonical": "What is your name?",
+      "paraphrase": "What is your name?",
+      "correction_found": "My name is Ari.",
+      "expected": "My name is Ari.",
+      "strategy": "exact",
+      "similarity": 1.0,
+      "matched": true,
+      "direct_hit": true,
+      "semantic_hit": false
+    },
+    {
+      "canonical": "What is your name?",
+      "paraphrase": "Tell me your name.",
+      "correction_found": "My name is Ari.",
+      "expected": "My name is Ari.",
+      "strategy": "exact",
+      "similarity": 1.0,
+      "matched": true,
+      "direct_hit": true,
+      "semantic_hit": false
+    }
+  ]
+}

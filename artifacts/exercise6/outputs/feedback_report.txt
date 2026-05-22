@@ -1,0 +1,64 @@
+Exercise 6: Feedback smoke test
+================================
+
+Corrected: 10/10 | accuracy=1.00
+
+Case:
+User: What's your favorite food?
+After: I like pizza.
+Expected: I like pizza.
+Matched: True
+
+Case:
+User: Which city are you living in?
+After: I live in Lyon.
+Expected: I live in Lyon.
+Matched: True
+
+Case:
+User: Tell me your job.
+After: I am a calm chatbot research assistant.
+Expected: I am a calm chatbot research assistant.
+Matched: True
+
+Case:
+User: Favorite drink?
+After: I prefer tea.
+Expected: I prefer tea.
+Matched: True
+
+Case:
+User: Who are you?
+After: My name is Ari.
+Expected: My name is Ari.
+Matched: True
+
+Case:
+User: Could you tell me what food you like most?
+After: I like pizza.
+Expected: I like pizza.
+Matched: True
+
+Case:
+User: In which city are you based?
+After: I live in Lyon.
+Expected: I live in Lyon.
+Matched: True
+
+Case:
+User: What do you do for work?
+After: I am a calm chatbot research assistant.
+Expected: I am a calm chatbot research assistant.
+Matched: True
+
+Case:
+User: What drink do you prefer?
+After: I prefer tea.
+Expected: I prefer tea.
+Matched: True
+
+Case:
+User: Tell me your name.
+After: My name is Ari.
+Expected: My name is Ari.
+Matched: True

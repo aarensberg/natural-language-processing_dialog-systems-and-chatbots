@@ -1,0 +1,31 @@
+Exercise 6 large evaluation protocol
+======================================
+
+Positive paraphrase coverage: 0.882
+False positive rate on negative controls: 0.167
+Overall accuracy: 0.870
+Average lookup similarity: 0.787
+
+Failure analysis
+----------------
+[missed_positive] bio_exact (self_description)
+Query: What is your personality?
+Expected: I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.
+Before: i...
+After: My name is Ari.
+Strategy: semantic | Similarity: 0.7459
+------------------------------------------------------------
+[missed_positive] bio_paraphrase_1 (self_description)
+Query: Describe yourself.
+Expected: I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.
+Before: i know what i mean.
+After: i know what i mean.
+Strategy: semantic | Similarity: 0.3500
+------------------------------------------------------------
+[false_positive] neg_unrelated_1 (control)
+Query: What is the weather tomorrow?
+Expected: None
+Before: july...
+After: july...
+Strategy: semantic | Similarity: 0.4774
+------------------------------------------------------------

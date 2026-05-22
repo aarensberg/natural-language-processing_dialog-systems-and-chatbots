@@ -1,0 +1,35 @@
+[
+  {
+    "id": "bio_exact",
+    "category": "self_description",
+    "query": "What is your personality?",
+    "expected": "I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.",
+    "before": "i...",
+    "after": "My name is Ari.",
+    "strategy": "semantic",
+    "similarity": 0.7459,
+    "error_type": "missed_positive"
+  },
+  {
+    "id": "bio_paraphrase_1",
+    "category": "self_description",
+    "query": "Describe yourself.",
+    "expected": "I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.",
+    "before": "i know what i mean.",
+    "after": "i know what i mean.",
+    "strategy": "semantic",
+    "similarity": 0.35,
+    "error_type": "missed_positive"
+  },
+  {
+    "id": "neg_unrelated_1",
+    "category": "control",
+    "query": "What is the weather tomorrow?",
+    "expected": null,
+    "before": "july...",
+    "after": "july...",
+    "strategy": "semantic",
+    "similarity": 0.4774,
+    "error_type": "false_positive"
+  }
+]

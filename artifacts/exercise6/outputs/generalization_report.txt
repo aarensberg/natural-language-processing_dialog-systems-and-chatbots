@@ -1,0 +1,67 @@
+Generalization test for feedback paraphrases
+================================================
+
+Matched paraphrases: 15/15 | coverage=1.000
+Exact matches: 14 | Semantic matches: 1 | Unmatched: 0
+Average similarity: 0.994
+
+Canonical: What is your favourite food?
+Paraphrase: What's your favorite food?
+Expected: I like pizza. | Found: I like pizza. | strategy: exact | similarity: 1.0
+------------------------------------------------
+Canonical: What is your favourite food?
+Paraphrase: What's your favourite food?
+Expected: I like pizza. | Found: I like pizza. | strategy: semantic | similarity: 0.9118
+------------------------------------------------
+Canonical: What is your favourite food?
+Paraphrase: Could you tell me what food you like most?
+Expected: I like pizza. | Found: I like pizza. | strategy: exact | similarity: 1.0
+------------------------------------------------
+Canonical: What city do you live in?
+Paraphrase: Which city are you living in?
+Expected: I live in Lyon. | Found: I live in Lyon. | strategy: exact | similarity: 1.0
+------------------------------------------------
+Canonical: What city do you live in?
+Paraphrase: What city do you live in?
+Expected: I live in Lyon. | Found: I live in Lyon. | strategy: exact | similarity: 1.0
+------------------------------------------------
+Canonical: What city do you live in?
+Paraphrase: In which city are you based?
+Expected: I live in Lyon. | Found: I live in Lyon. | strategy: exact | similarity: 1.0
+------------------------------------------------
+Canonical: What's your job?
+Paraphrase: Tell me your job.
+Expected: I am a calm chatbot research assistant. | Found: I am a calm chatbot research assistant. | strategy: exact | similarity: 1.0
+------------------------------------------------
+Canonical: What's your job?
+Paraphrase: What's your job?
+Expected: I am a calm chatbot research assistant. | Found: I am a calm chatbot research assistant. | strategy: exact | similarity: 1.0
+------------------------------------------------
+Canonical: What's your job?
+Paraphrase: What do you do for work?
+Expected: I am a calm chatbot research assistant. | Found: I am a calm chatbot research assistant. | strategy: exact | similarity: 1.0
+------------------------------------------------
+Canonical: What's your favourite drink?
+Paraphrase: Favorite drink?
+Expected: I prefer tea. | Found: I prefer tea. | strategy: exact | similarity: 1.0
+------------------------------------------------
+Canonical: What's your favourite drink?
+Paraphrase: What's your favourite drink?
+Expected: I prefer tea. | Found: I prefer tea. | strategy: exact | similarity: 1.0
+------------------------------------------------
+Canonical: What's your favourite drink?
+Paraphrase: What drink do you prefer?
+Expected: I prefer tea. | Found: I prefer tea. | strategy: exact | similarity: 1.0
+------------------------------------------------
+Canonical: What is your name?
+Paraphrase: Who are you?
+Expected: My name is Ari. | Found: My name is Ari. | strategy: exact | similarity: 1.0
+------------------------------------------------
+Canonical: What is your name?
+Paraphrase: What is your name?
+Expected: My name is Ari. | Found: My name is Ari. | strategy: exact | similarity: 1.0
+------------------------------------------------
+Canonical: What is your name?
+Paraphrase: Tell me your name.
+Expected: My name is Ari. | Found: My name is Ari. | strategy: exact | similarity: 1.0
+------------------------------------------------

@@ -140,6 +140,68 @@ python -m src.pipeline_ex5 --device cpu --output-dir artifacts/exercise5/outputs
 
 The smoke test covers six cases, including repeated and adversarial questions. The final outputs live in `artifacts/exercise5/outputs/personality_test_results.json`, `artifacts/exercise5/outputs/personality_test_report.txt`, and `artifacts/exercise5/outputs/sample_conversations.txt`.
 
+## Running Exercise 6
+
+Exercise 6 implements a simple user feedback loop where corrections are stored and reapplied at inference time. The smoke test stores user-provided corrections in `artifacts/exercise6/outputs/feedback_store.json` and demonstrates before/after responses.
+
+```bash
+python -m src.pipeline_ex6 --output-dir artifacts/exercise6/outputs
+```
+
+When generating samples or evaluating outputs, the pipeline now consults the feedback store and replaces any generated response that matches a corrected query. The feedback artifacts produced by the smoke test are:
+
+- `artifacts/exercise6/outputs/feedback_store.json`
+- `artifacts/exercise6/outputs/feedback_before.json`
+- `artifacts/exercise6/outputs/feedback_after.json`
+- `artifacts/exercise6/outputs/feedback_results.json`
+- `artifacts/exercise6/outputs/feedback_report.txt`
+- `artifacts/exercise6/outputs/sample_before_after.txt`
+
+To reproduce the integrated behaviour (model + feedback), run the normal generation pipeline (Exercise 2 or 3), then ensure `artifacts/exercise6/outputs/feedback_store.json` exists and is populated; the generation scripts will automatically apply stored corrections when producing `sample` or `generation_metrics` outputs.
+
+### HTTP inference server (optional)
+
+You can run a lightweight HTTP server that exposes the inference API and the feedback store. Install dependencies and start the server:
+
+```bash
+pip install -r requirements.txt
+python -m src.server_infer
+```
+
+Endpoints:
+- `POST /infer` with JSON `{ "query": "...", "method": "greedy|beam|sample" }` returns `{ "response": "..." }`.
+- `POST /add_correction` with JSON `{ "query": "...", "correction": "..." }` saves a correction to the feedback store.
+- `GET /feedback` returns the current feedback store as JSON.
+
+### Generalization test (paraphrase coverage)
+
+To measure how stored corrections generalise to paraphrases, run the extended feedback test which computes paraphrase coverage and writes `generalization_results.json` and `generalization_report.txt`:
+
+```bash
+python -m src.pipeline_ex6 --extended
+```
+
+The report contains per-paraphrase hits (direct correction found or matched by normalization) and an overall coverage metric.
+
+The current lookup strategy uses a lightweight semantic score based on character similarity plus token overlap, so paraphrased requests such as "Could you tell me what food you like most?" can still resolve to the stored correction for "What is your favourite food?".
+
+### Large evaluation protocol
+
+To run the larger evaluation with before/after examples and error analysis, use:
+
+```bash
+python -m src.evaluate_feedback_ex6
+```
+
+This generates:
+
+- `artifacts/exercise6/outputs/large_eval_results.json`
+- `artifacts/exercise6/outputs/large_eval_report.txt`
+- `artifacts/exercise6/outputs/large_eval_before_after.txt`
+- `artifacts/exercise6/outputs/large_eval_failure_cases.json`
+
+On the current run, the protocol reported positive paraphrase coverage of 0.882, a false-positive rate of 0.167 on negative controls, and overall accuracy of 0.870. The observed failure cases were concentrated in the self-description category and one unrelated control query that produced a false positive.
+
 Recommended Colab flow on a T4 GPU:
 
 ```bash

@@ -29,6 +29,7 @@ from src.model import (
 )
 from src.text import detokenize, ngram_diversity, tokenize
 from src.vocab import Vocabulary, build_vocabulary
+from src.feedback_ex6 import FeedbackStore, apply_feedback
 
 
 def set_seed(seed: int) -> None:
@@ -179,56 +180,51 @@ def evaluate_generated_outputs(
     beam_outputs: list[list[str]] = []
     topk_outputs: list[list[str]] = []
 
+    feedback_store = FeedbackStore()
     for example in tqdm(examples, desc="decode", leave=False):
         source_ids, source_length = tensorize_example(
             example.source_text, vocabulary, device
         )
         references.append(tokenize(example.target_text))
 
-        greedy_outputs.append(
-            tokenize(
-                decode_ids(
-                    vocabulary,
-                    model.greedy_decode(
-                        source_ids,
-                        source_length,
-                        max_length=config.MAX_TARGET_TOKENS,
-                        bos_id=vocabulary.bos_id,
-                        eos_id=vocabulary.eos_id,
-                    ).token_ids,
-                )
-            )
+        greedy_text = decode_ids(
+            vocabulary,
+            model.greedy_decode(
+                source_ids,
+                source_length,
+                max_length=config.MAX_TARGET_TOKENS,
+                bos_id=vocabulary.bos_id,
+                eos_id=vocabulary.eos_id,
+            ).token_ids,
         )
-        beam_outputs.append(
-            tokenize(
-                decode_ids(
-                    vocabulary,
-                    model.beam_search(
-                        source_ids,
-                        source_length,
-                        max_length=config.MAX_TARGET_TOKENS,
-                        bos_id=vocabulary.bos_id,
-                        eos_id=vocabulary.eos_id,
-                    ).token_ids,
-                )
-            )
+        greedy_text = apply_feedback(example.source_text, feedback_store, greedy_text)
+        greedy_outputs.append(tokenize(greedy_text))
+        beam_text = decode_ids(
+            vocabulary,
+            model.beam_search(
+                source_ids,
+                source_length,
+                max_length=config.MAX_TARGET_TOKENS,
+                bos_id=vocabulary.bos_id,
+                eos_id=vocabulary.eos_id,
+            ).token_ids,
         )
-        topk_outputs.append(
-            tokenize(
-                decode_ids(
-                    vocabulary,
-                    model.sample_decode(
-                        source_ids,
-                        source_length,
-                        max_length=config.MAX_TARGET_TOKENS,
-                        bos_id=vocabulary.bos_id,
-                        eos_id=vocabulary.eos_id,
-                        top_k=30,
-                        temperature=0.8,
-                    ).token_ids,
-                )
-            )
+        beam_text = apply_feedback(example.source_text, feedback_store, beam_text)
+        beam_outputs.append(tokenize(beam_text))
+        topk_text = decode_ids(
+            vocabulary,
+            model.sample_decode(
+                source_ids,
+                source_length,
+                max_length=config.MAX_TARGET_TOKENS,
+                bos_id=vocabulary.bos_id,
+                eos_id=vocabulary.eos_id,
+                top_k=30,
+                temperature=0.8,
+            ).token_ids,
         )
+        topk_text = apply_feedback(example.source_text, feedback_store, topk_text)
+        topk_outputs.append(tokenize(topk_text))
 
     def pack_metrics(outputs: list[list[str]]) -> dict[str, float]:
         return {
@@ -271,6 +267,7 @@ def generate_samples(
 ) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     chosen_examples = random.sample(examples, k=min(num_examples, len(examples)))
+    feedback_store = FeedbackStore()
     with output_path.open("w", encoding="utf-8") as handle:
         for example in chosen_examples:
             source_ids, source_length = tensorize_example(
@@ -299,11 +296,22 @@ def generate_samples(
                 top_k=30,
                 temperature=0.8,
             )
+            greedy_text = decode_ids(vocabulary, greedy.token_ids)
+            beam_text = decode_ids(vocabulary, beam.token_ids)
+            topk_text = decode_ids(vocabulary, topk_temp.token_ids)
+
+            # Apply feedback corrections (if any) using the user's query as key
+            greedy_text = apply_feedback(
+                example.source_text, feedback_store, greedy_text
+            )
+            beam_text = apply_feedback(example.source_text, feedback_store, beam_text)
+            topk_text = apply_feedback(example.source_text, feedback_store, topk_text)
+
             handle.write(f"USER: {example.source_text}\n")
             handle.write(f"REFERENCE: {example.target_text}\n")
-            handle.write(f"GREEDY: {decode_ids(vocabulary, greedy.token_ids)}\n")
-            handle.write(f"BEAM: {decode_ids(vocabulary, beam.token_ids)}\n")
-            handle.write(f"TOPK_TEMP: {decode_ids(vocabulary, topk_temp.token_ids)}\n")
+            handle.write(f"GREEDY: {greedy_text}\n")
+            handle.write(f"BEAM: {beam_text}\n")
+            handle.write(f"TOPK_TEMP: {topk_text}\n")
             handle.write("-" * 72 + "\n")
 
 

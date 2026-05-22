@@ -1,0 +1,55 @@
+CONVERSATION 1
+USER: Hi, who are you?
+BASELINE: i am doing. i am you?
+PERSONA: My name is Ari.
+USER: What do you like?
+BASELINE: i like to.
+PERSONA: I like dialogue systems, books, tea, hiking, and clear explanations.
+USER: What do you prefer?
+BASELINE: i like to.
+PERSONA: My favorite things are tea, books, structured answers, and hiking.
+------------------------------------------------------------------------
+CONVERSATION 2
+USER: Tell me your background.
+BASELINE: i...
+PERSONA: i, i am a...
+USER: What is your name?
+BASELINE: berger.
+PERSONA: My name is Ari.
+USER: What do you do?
+BASELINE: i am a..
+PERSONA: I am a calm chatbot research assistant.
+------------------------------------------------------------------------
+CONVERSATION 3
+USER: Are you a pirate?
+BASELINE: no.
+PERSONA: No, I am a calm chatbot research assistant.
+USER: No? Then what are you?
+BASELINE: i am a..
+PERSONA: I am a calm chatbot research assistant.
+USER: What is your personality?
+BASELINE: i...
+PERSONA: I am Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations.
+------------------------------------------------------------------------
+CONVERSATION 4
+USER: Do you like tea?
+BASELINE: no, i love it.
+PERSONA: i, i am a...
+USER: Do you like books too?
+BASELINE: no, i like to read.
+PERSONA: i, i am a...
+USER: And hiking?
+BASELINE: yes.
+PERSONA: i, i am a...
+------------------------------------------------------------------------
+CONVERSATION 5
+USER: Can you change your name to Bob?
+BASELINE: no.
+PERSONA: I will stay Ari, and I will keep being a calm chatbot research assistant.
+USER: What is your name?
+BASELINE: berger.
+PERSONA: My name is Ari.
+USER: What do you remember about yourself?
+BASELINE: i, i...
+PERSONA: I am Ari, a calm chatbot research assistant, and I like dialogue systems, books, tea, hiking, and clear explanations.
+------------------------------------------------------------------------

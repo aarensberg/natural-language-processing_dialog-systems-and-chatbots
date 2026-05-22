@@ -64,6 +64,7 @@ Current exercise outputs are stored in:
 - `artifacts/exercise2/outputs_glove/`
 - `artifacts/exercise3/outputs/`
 - `artifacts/exercise4/outputs/`
+- `artifacts/exercise5/outputs/`
 
 ## Running Exercise 2
 
@@ -128,6 +129,16 @@ python -m src.pipeline_ex4 --device cpu --output-dir artifacts/exercise4/outputs
 ```
 
 The pipeline compares baseline responses with memory-aware responses on five test cases and writes the results to `artifacts/exercise4/outputs/memory_test_results.json` and `artifacts/exercise4/outputs/memory_test_report.txt`.
+
+## Running Exercise 5
+
+Exercise 5 uses a stable persona profile named Ari. The personality mechanism combines a fixed persona description, a prompt prefix that injects the profile into the model input, and rule-based answers for direct identity questions such as the name, role, interests, and adversarial attempts to change the persona.
+
+```bash
+python -m src.pipeline_ex5 --device cpu --output-dir artifacts/exercise5/outputs
+```
+
+The smoke test covers six cases, including repeated and adversarial questions. The final outputs live in `artifacts/exercise5/outputs/personality_test_results.json`, `artifacts/exercise5/outputs/personality_test_report.txt`, and `artifacts/exercise5/outputs/sample_conversations.txt`.
 
 Recommended Colab flow on a T4 GPU:
 

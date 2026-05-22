@@ -19,6 +19,10 @@ EX4_DIR = ARTIFACTS_DIR / "exercise4"
 EX4_CHECKPOINT_DIR = EX4_DIR / "checkpoints"
 EX4_OUTPUT_DIR = EX4_DIR / "outputs"
 EX4_REPORT_DIR = EX4_DIR / "report"
+EX5_DIR = ARTIFACTS_DIR / "exercise5"
+EX5_CHECKPOINT_DIR = EX5_DIR / "checkpoints"
+EX5_OUTPUT_DIR = EX5_DIR / "outputs"
+EX5_REPORT_DIR = EX5_DIR / "report"
 
 assert (
     DATA_DIR.exists()

@@ -56,6 +56,10 @@ A smoke test on five handcrafted cases covered the required categories: names, l
 
 The main limitation is that the mechanism is slot-based and rule-driven, so it handles only the forms it has been programmed to recognize. It will not generalize to arbitrary factual memory, paraphrased references, or conflicting statements unless the rule set is expanded.
 
+Exercise 5 builds on the same idea of explicit control, but shifts from conversation memory to persona consistency. The implemented persona is Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations. Consistency is encouraged by combining three mechanisms: a stable profile description, a persona-prefixed input prompt, and rule-based overrides for direct identity questions and adversarial requests to change the character.
+
+The Exercise 5 smoke test uses six cases, including repeated name and role questions, adversarial attempts to reassign the persona, and self-description prompts. The persona-aware wrapper answered all six cases correctly, while the baseline model remained generic. This indicates that personality consistency is produced primarily by rules plus prompt conditioning, not by the raw generator alone.
+
 \section{Evaluation and Results}
 Two runs were executed to validate the improved pipeline. A smoke test on 100 conversations confirmed that the attention-based model, GloVe loading, and the three decoding paths all execute end-to-end. With the extracted GloVe file, coverage reached 89.6\% on the smoke vocabulary and 93.0\% on the full Cornell vocabulary. The smoke run produced the following metrics: train loss 4.4823, validation loss 3.1685, test loss 3.4739, with corresponding perplexities 88.4359, 23.7708, and 32.2609.
 
@@ -73,6 +77,6 @@ The smoke samples already reveal typical chatbot failure modes: repeated \texttt
 The current system is still a word-level seq2seq model and therefore cannot maintain long-term context or robust factual grounding. Movie dialogue also induces stylistic bias and dramatic responses. Future work should add memory, persona control, feedback storage, and stronger evaluation metrics such as BLEU and distinct-n to better characterize quality and diversity.
 
 \section{Conclusion}
-The project now includes a reproducible PyTorch baseline, an improved attention-based chatbot, pretrained embedding support, multiple decoding strategies, a dedicated Exercise 3 pipeline for domain-effect analysis, and a deterministic Exercise 4 memory layer. Exercise 3 is complete with final Cornell-only and Cornell+PersonaChat results, and Exercise 4 shows that a small rule-based memory can recover simple facts reliably even when the underlying generator remains unchanged.
+The project now includes a reproducible PyTorch baseline, an improved attention-based chatbot, pretrained embedding support, multiple decoding strategies, a dedicated Exercise 3 pipeline for domain-effect analysis, a deterministic Exercise 4 memory layer, and an Exercise 5 persona-consistency wrapper. Exercise 3 is complete with final Cornell-only and Cornell+PersonaChat results, Exercise 4 shows that a small rule-based memory can recover simple facts reliably, and Exercise 5 shows that a stable persona can be enforced consistently with rules plus prompt conditioning.
 
 \end{document}

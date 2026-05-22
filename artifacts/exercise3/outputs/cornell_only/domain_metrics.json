@@ -1,0 +1,29 @@
+{
+  "cornell": {
+    "loss": 4.0748,
+    "perplexity": 58.8399,
+    "generation_metrics": {
+      "greedy": {
+        "bleu": 0.005,
+        "distinct_1": 0.0029,
+        "distinct_2": 0.0116
+      },
+      "beam": {
+        "bleu": 0.0054,
+        "distinct_1": 0.0041,
+        "distinct_2": 0.0139
+      },
+      "topk_temp": {
+        "bleu": 0.0048,
+        "distinct_1": 0.0113,
+        "distinct_2": 0.1101
+      }
+    },
+    "reference_diversity": {
+      "distinct_1": 0.0706,
+      "distinct_2": 0.3885
+    },
+    "num_examples": 14700,
+    "num_conversations": 6697
+  }
+}

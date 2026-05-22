@@ -43,10 +43,18 @@ Exercise 3 is now implemented as a multi-dataset pipeline in \texttt{src/pipelin
 
 PersonaChat is parsed directly from the extracted raw text files under \texttt{data/personachat/}. Each corpus is split by conversation to reduce leakage, and the pipeline writes separate EDA summaries, token-length plots, sample conversations, and per-domain BLEU/distinct metrics under \texttt{artifacts/exercise3/}.
 
-A local MPS smoke test on capped data confirmed that both the Cornell-only and Cornell+PersonaChat experiments run end to end and produce the expected comparison artifacts. The full T4 Colab run is prepared in \texttt{scripts/colab.ipynb} and is the source of the final Exercise 3 numbers.
+A local MPS smoke test on capped data confirmed that the pipeline wiring is correct and that both experiment branches start cleanly. The final Colab run completed for the mixed-domain branch as well, producing the following comparison in \texttt{artifacts/exercise3/outputs/comparison.json}: Cornell+PersonaChat achieved train loss 4.3592, validation loss 4.0182, and test loss 4.0382. The domain-specific losses were 4.0711 on Cornell and 3.9641 on PersonaChat, with corresponding perplexities 58.6207 and 52.6746.
+
+On generation quality, the mixed-domain model improved over the Cornell-only control on validation/test loss and overall BLEU, with greedy BLEU 0.0159, beam BLEU 0.0139, and top-k plus temperature BLEU 0.0084. The diversity scores stayed low for greedy and beam decoding but increased markedly for top-k sampling, especially on distinct-2 (0.0989 overall, 0.1119 on Cornell, 0.1286 on PersonaChat). This supports the usual tradeoff: PersonaChat improved the model's domain adaptation and response quality slightly, while stochastic decoding remained the main driver of output diversity.
 
 \section{Memory, Personality, and Feedback}
-These components are part of the coursework scope and remain to be implemented as structured mechanisms rather than ad hoc prompts. The current codebase keeps the architecture modular so that memory, persona conditioning, and feedback adaptation can be added without changing the core seq2seq training loop. Exercise 3 already demonstrates how a domain-specific data change can alter chatbot tone and reliability without modifying the generator architecture itself.
+Exercise 4 is implemented as a lightweight rule-based conversational memory in \texttt{src/memory\_ex4.py} and a comparison pipeline in \texttt{src/pipeline\_ex4.py}. The memory layer stores explicit facts from the dialogue state, including the user's name, location, preference, and recent statements. It then answers direct memory questions such as ``What is my name?'' or ``Where do I live?'' without relying on the seq2seq generator.
+
+This choice is intentionally simple and defensible for the codebase: it is deterministic, easy to inspect, and does not require retraining the neural chatbot. The memory-aware wrapper only augments the model input when a direct recall is not possible, which keeps the baseline model unchanged and makes the effect of memory easy to isolate.
+
+A smoke test on five handcrafted cases covered the required categories: names, locations, preferences, and previous statements. The memory-aware version answered all five correctly, while the baseline model produced generic responses such as ``berger.'', ``oklahoma.'', and ``no.'' on the same prompts. This demonstrates a clear improvement in conversational context handling.
+
+The main limitation is that the mechanism is slot-based and rule-driven, so it handles only the forms it has been programmed to recognize. It will not generalize to arbitrary factual memory, paraphrased references, or conflicting statements unless the rule set is expanded.
 
 \section{Evaluation and Results}
 Two runs were executed to validate the improved pipeline. A smoke test on 100 conversations confirmed that the attention-based model, GloVe loading, and the three decoding paths all execute end-to-end. With the extracted GloVe file, coverage reached 89.6\% on the smoke vocabulary and 93.0\% on the full Cornell vocabulary. The smoke run produced the following metrics: train loss 4.4823, validation loss 3.1685, test loss 3.4739, with corresponding perplexities 88.4359, 23.7708, and 32.2609.
@@ -65,6 +73,6 @@ The smoke samples already reveal typical chatbot failure modes: repeated \texttt
 The current system is still a word-level seq2seq model and therefore cannot maintain long-term context or robust factual grounding. Movie dialogue also induces stylistic bias and dramatic responses. Future work should add memory, persona control, feedback storage, and stronger evaluation metrics such as BLEU and distinct-n to better characterize quality and diversity.
 
 \section{Conclusion}
-The project now includes a reproducible PyTorch baseline, an improved attention-based chatbot, pretrained embedding support, multiple decoding strategies, and a dedicated Exercise 3 pipeline for domain-effect analysis. The Colab results give a stronger final reference point for Exercise 2, and the new Ex3 pipeline is ready for a T4 run comparing Cornell only against Cornell plus PersonaChat.
+The project now includes a reproducible PyTorch baseline, an improved attention-based chatbot, pretrained embedding support, multiple decoding strategies, a dedicated Exercise 3 pipeline for domain-effect analysis, and a deterministic Exercise 4 memory layer. Exercise 3 is complete with final Cornell-only and Cornell+PersonaChat results, and Exercise 4 shows that a small rule-based memory can recover simple facts reliably even when the underlying generator remains unchanged.
 
 \end{document}

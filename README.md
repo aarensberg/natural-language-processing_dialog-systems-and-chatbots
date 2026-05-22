@@ -63,6 +63,7 @@ Current exercise outputs are stored in:
 - `artifacts/exercise2/outputs_no_glove/`
 - `artifacts/exercise2/outputs_glove/`
 - `artifacts/exercise3/outputs/`
+- `artifacts/exercise4/outputs/`
 
 ## Running Exercise 2
 
@@ -110,11 +111,23 @@ If you rerun a job, clear or archive the target `outputs/` directory first so th
 
 Exercise 3 compares Cornell-only training with Cornell + PersonaChat training using the same attention-based seq2seq model and a corpus prefix in the source text.
 
+The final mixed-domain run is now complete. Cornell-only remains the control baseline, while Cornell + PersonaChat is the final multi-dataset comparison. The current workspace contains the full metrics and generation artifacts for both branches, so no rerun is needed before moving to Exercise 4.
+
 ```bash
 python -m src.pipeline_ex3 --experiments cornell_only cornell_plus_persona --epochs 5 --batch-size 128 --device cuda --use-glove --glove-path data/wiki_giga_2024_300_MFT20_vectors_seed_2024_alpha_0.75_eta_0.05_combined.txt --output-dir artifacts/exercise3/outputs
 ```
 
-The pipeline writes comparison outputs, domain-specific metrics, plots, and sample conversations under `artifacts/exercise3/outputs/{cornell_only,cornell_plus_persona}`.
+The pipeline writes comparison outputs, domain-specific metrics, plots, and sample conversations under `artifacts/exercise3/outputs/{cornell_only,cornell_plus_persona}`. The final mixed-domain metrics are in `artifacts/exercise3/outputs/comparison.json`.
+
+## Running Exercise 4
+
+Exercise 4 adds a simple but defensible conversational memory layer on top of the existing chatbot. It uses a rule-based memory state for names, locations, preferences, and recent statements, and falls back to the seq2seq model when no direct memory answer is available.
+
+```bash
+python -m src.pipeline_ex4 --device cpu --output-dir artifacts/exercise4/outputs
+```
+
+The pipeline compares baseline responses with memory-aware responses on five test cases and writes the results to `artifacts/exercise4/outputs/memory_test_results.json` and `artifacts/exercise4/outputs/memory_test_report.txt`.
 
 Recommended Colab flow on a T4 GPU:
 

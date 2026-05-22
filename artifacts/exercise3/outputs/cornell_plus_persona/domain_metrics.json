@@ -1,0 +1,56 @@
+{
+  "cornell": {
+    "loss": 4.0711,
+    "perplexity": 58.6207,
+    "generation_metrics": {
+      "greedy": {
+        "bleu": 0.0115,
+        "distinct_1": 0.0025,
+        "distinct_2": 0.0094
+      },
+      "beam": {
+        "bleu": 0.0061,
+        "distinct_1": 0.0047,
+        "distinct_2": 0.0162
+      },
+      "topk_temp": {
+        "bleu": 0.0051,
+        "distinct_1": 0.0126,
+        "distinct_2": 0.1119
+      }
+    },
+    "reference_diversity": {
+      "distinct_1": 0.0706,
+      "distinct_2": 0.3885
+    },
+    "num_examples": 14700,
+    "num_conversations": 6697
+  },
+  "personachat": {
+    "loss": 3.9641,
+    "perplexity": 52.6746,
+    "generation_metrics": {
+      "greedy": {
+        "bleu": 0.0219,
+        "distinct_1": 0.0048,
+        "distinct_2": 0.0185
+      },
+      "beam": {
+        "bleu": 0.0262,
+        "distinct_1": 0.0067,
+        "distinct_2": 0.0264
+      },
+      "topk_temp": {
+        "bleu": 0.0123,
+        "distinct_1": 0.0147,
+        "distinct_2": 0.1286
+      }
+    },
+    "reference_diversity": {
+      "distinct_1": 0.0671,
+      "distinct_2": 0.3967
+    },
+    "num_examples": 6499,
+    "num_conversations": 895
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "num_pairs": 213677,
+  "num_conversations": 75901,
+  "vocab_size": 42566,
+  "avg_source_length": 11.3,
+  "avg_target_length": 9.46,
+  "median_source_length": 11,
+  "median_target_length": 9,
+  "top_tokens": [
+    [
+      ".",
+      444891
+    ],
+    [
+      "corpus",
+      213682
+    ],
+    [
+      "i",
+      166103
+    ],
+    [
+      "cornell",
+      149055
+    ],
+    [
+      "?",
+      146692
+    ],
+    [
+      "you",
+      136252
+    ],
+    [
+      ",",
+      129872
+    ],
+    [
+      "to",
+      74080
+    ],
+    [
+      "a",
+      71803
+    ],
+    [
+      "the",
+      71184
+    ],
+    [
+      "personachat",
+      64626
+    ],
+    [
+      "!",
+      51172
+    ],
+    [
+      "do",
+      46983
+    ],
+    [
+      "is",
+      46049
+    ],
+    [
+      "it",
+      43630
+    ],
+    [
+      "-",
+      41076
+    ],
+    [
+      "that",
+      40158
+    ],
+    [
+      "what",
+      39636
+    ],
+    [
+      "my",
+      38402
+    ],
+    [
+      "and",
+      33497
+    ]
+  ],
+  "noisy_examples": [
+    {
+      "source": "corpus cornell Not the hacking and gagging and spitting part.  Please.",
+      "target": "Okay... then how 'bout we try out some French cuisine.  Saturday?  Night?",
+      "reason": "punctuation_heavy"
+    },
+    {
+      "source": "corpus cornell No, no, it's my fault -- we didn't have a proper introduction ---",
+      "target": "Cameron.",
+      "reason": "very_short"
+    },
+    {
+      "source": "corpus cornell Gosh, if only we could find Kat a boyfriend...",
+      "target": "Let me see what I can do.",
+      "reason": "punctuation_heavy"
+    },
+    {
+      "source": "corpus cornell How is our little Find the Wench A Date plan progressing?",
+      "target": "Well, there's someone I think might be --",
+      "reason": "punctuation_heavy"
+    },
+    {
+      "source": "corpus cornell Well, no...",
+      "target": "Then that's all you had to say.",
+      "reason": "punctuation_heavy"
+    }
+  ]
+}

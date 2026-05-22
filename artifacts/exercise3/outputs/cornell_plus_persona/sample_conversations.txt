@@ -1,0 +1,70 @@
+DOMAIN: personachat
+USER: they are welcome to come along. i can play metallica for them.
+REFERENCE: cool , do you have a job ? do you like metallica
+GREEDY: i would love to play the games.
+BEAM: do you have any pets?
+TOPK_TEMP: i i have a. to school <unk>.
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: checking..... hah! he has a shit load of unpaid parking tickets...
+REFERENCE: Parking tickets ? That's it ?
+GREEDY: well, i...
+BEAM: yeah.
+TOPK_TEMP: all right of those people..
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: i did not. now get out of my way!
+REFERENCE: Isn't it true that you --
+GREEDY: you, you...
+BEAM: oh.
+TOPK_TEMP: you'll be...
+------------------------------------------------------------------------
+DOMAIN: personachat
+USER: i do not talk much since i met my mother.
+REFERENCE: do you play dungeons and dragons ? you could play with me sometime !
+GREEDY: i is not to. i am a to
+BEAM: do you have any pets?
+TOPK_TEMP: aw, is not to be a
+------------------------------------------------------------------------
+DOMAIN: personachat
+USER: that is the truth i would rather they go away stupid people
+REFERENCE: how about just 1 friend ?
+GREEDY: i am not. i. i.
+BEAM: do you have any pets?
+TOPK_TEMP: when you were you do not to be to?
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: respect, i always dished ya respect.
+REFERENCE: ...Ya gave Dipper my locker.
+GREEDY: you,..
+BEAM: no.
+TOPK_TEMP: i. you think i
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: how's he doing?
+REFERENCE: Same. Any luck?
+GREEDY: he's going to be..
+BEAM: he's fine.
+TOPK_TEMP: he's going to find him
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: nobody!
+REFERENCE: If you say another word, it's over.  I'm not playing!
+GREEDY: i,...
+BEAM: what? you mean?
+TOPK_TEMP: do you have to
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: so that's it, just forget about us?
+REFERENCE: Damnitt, Monica.  This ain't about us anymore, it's about me.
+GREEDY: no.
+BEAM: no.
+TOPK_TEMP: oh, i. to make it the deal.
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: jump in, quick, c'mon...
+REFERENCE: I'm Lowell Bergman. We spoke on the phone, remember?
+GREEDY: i.....
+BEAM: ...
+TOPK_TEMP: ...
+------------------------------------------------------------------------

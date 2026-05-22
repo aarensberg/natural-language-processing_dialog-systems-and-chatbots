@@ -1,0 +1,70 @@
+DOMAIN: cornell
+USER: long live the organization for the organized!
+REFERENCE: Sit down, Mr. Starks! Sit down, Mr. Starks!
+GREEDY: i,..
+BEAM: <unk>!
+TOPK_TEMP: and what? have the <unk> in the <unk>.
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: don't go in.
+REFERENCE: I'm not.  They must be tunneling under the whole town.
+GREEDY: i.
+BEAM: no.
+TOPK_TEMP: no, well, i didn't. you to.
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: ow! shit!
+REFERENCE: Be quiet!  Listen!
+GREEDY: what,
+BEAM: what...
+TOPK_TEMP: you're a me, dude.
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: and who's dave when he's at home?
+REFERENCE: He's at home.
+GREEDY: he was.
+BEAM: i don't know.
+TOPK_TEMP: you haven't not a him here.
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: i'm sorry.
+REFERENCE: You have to keep the body going until the brain and heart recover enough to go on their own.
+GREEDY: i.
+BEAM: no.
+TOPK_TEMP: it's okay.
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: he was murdered.
+REFERENCE: Who did it?
+GREEDY: he was.
+BEAM: no.
+TOPK_TEMP: he's dead?
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: jennifer, give mr. black a map of the city.
+REFERENCE: No thank you, Bill.  I can manage.
+GREEDY: i,..
+BEAM: oh,..
+TOPK_TEMP: yeah,?
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: naw! that's science fiction stuff!
+REFERENCE: Not where we operate.
+GREEDY: i,..
+BEAM: oh...
+TOPK_TEMP: that's what.
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: few minutes. want to catch the news.
+REFERENCE: Should I wait up?  We've got to get up early for the beach tomorrow.
+GREEDY: i.
+BEAM: okay.
+TOPK_TEMP: okay. i don't know..
+------------------------------------------------------------------------
+DOMAIN: cornell
+USER: what time does school start around here?
+REFERENCE: Nine o' clock.  Oh, I'm late! Maybe I'll see you later.
+GREEDY: i.
+BEAM: i don't know.
+TOPK_TEMP: what about this?
+------------------------------------------------------------------------

@@ -1,0 +1,356 @@
+{
+  "train": {
+    "num_pairs": 51663,
+    "num_conversations": 7151,
+    "vocab_size": 16902,
+    "avg_source_length": 13.34,
+    "avg_target_length": 11.88,
+    "median_source_length": 13,
+    "median_target_length": 12,
+    "top_tokens": [
+      [
+        "i",
+        80892
+      ],
+      [
+        ".",
+        78550
+      ],
+      [
+        "corpus",
+        51663
+      ],
+      [
+        "personachat",
+        51663
+      ],
+      [
+        "you",
+        38013
+      ],
+      [
+        "?",
+        34423
+      ],
+      [
+        ",",
+        30570
+      ],
+      [
+        "a",
+        26708
+      ],
+      [
+        "to",
+        25240
+      ],
+      [
+        "do",
+        24026
+      ],
+      [
+        "is",
+        22438
+      ],
+      [
+        "my",
+        21086
+      ],
+      [
+        "am",
+        19214
+      ],
+      [
+        "!",
+        17816
+      ],
+      [
+        "the",
+        16579
+      ],
+      [
+        "that",
+        15795
+      ],
+      [
+        "have",
+        14390
+      ],
+      [
+        "are",
+        14069
+      ],
+      [
+        "like",
+        13189
+      ],
+      [
+        "and",
+        13161
+      ]
+    ],
+    "noisy_examples": [
+      {
+        "source": "corpus personachat very cool . thanks for the chat . have a great day .",
+        "target": "you too",
+        "reason": "very_short"
+      },
+      {
+        "source": "corpus personachat it is . are you a prayer ?",
+        "target": "prayer ?",
+        "reason": "very_short"
+      },
+      {
+        "source": "corpus personachat i am just craaaaaazy about christian electronic music",
+        "target": "sometimes .",
+        "reason": "very_short"
+      },
+      {
+        "source": "corpus personachat bless up then dress up for the rave",
+        "target": "interesting .",
+        "reason": "very_short"
+      },
+      {
+        "source": "corpus personachat do you have a cell phone ?",
+        "target": "yes .",
+        "reason": "very_short"
+      }
+    ]
+  },
+  "valid": {
+    "num_pairs": 6464,
+    "num_conversations": 893,
+    "vocab_size": 6933,
+    "avg_source_length": 13.36,
+    "avg_target_length": 11.91,
+    "median_source_length": 13,
+    "median_target_length": 12,
+    "top_tokens": [
+      [
+        "i",
+        10099
+      ],
+      [
+        ".",
+        9875
+      ],
+      [
+        "corpus",
+        6465
+      ],
+      [
+        "personachat",
+        6464
+      ],
+      [
+        "you",
+        4718
+      ],
+      [
+        "?",
+        4319
+      ],
+      [
+        ",",
+        3903
+      ],
+      [
+        "a",
+        3307
+      ],
+      [
+        "to",
+        3163
+      ],
+      [
+        "do",
+        2984
+      ],
+      [
+        "is",
+        2844
+      ],
+      [
+        "my",
+        2677
+      ],
+      [
+        "am",
+        2493
+      ],
+      [
+        "!",
+        2202
+      ],
+      [
+        "the",
+        2073
+      ],
+      [
+        "that",
+        1952
+      ],
+      [
+        "have",
+        1789
+      ],
+      [
+        "are",
+        1758
+      ],
+      [
+        "and",
+        1656
+      ],
+      [
+        "like",
+        1653
+      ]
+    ],
+    "noisy_examples": [
+      {
+        "source": "corpus personachat that is so wonderful i have two dogs , they are like my babies .",
+        "target": "that cool",
+        "reason": "very_short"
+      },
+      {
+        "source": "corpus personachat aww . they are great companions . well i need to go . bye .",
+        "target": "ok bye",
+        "reason": "very_short"
+      },
+      {
+        "source": "corpus personachat i view electronic books more than physical books",
+        "target": "me too",
+        "reason": "very_short"
+      },
+      {
+        "source": "corpus personachat you see destiny 2 ?",
+        "target": "not yet",
+        "reason": "very_short"
+      },
+      {
+        "source": "corpus personachat what do you do for a living ?",
+        "target": "college .",
+        "reason": "very_short"
+      }
+    ]
+  },
+  "test": {
+    "num_pairs": 6499,
+    "num_conversations": 895,
+    "vocab_size": 6833,
+    "avg_source_length": 13.39,
+    "avg_target_length": 11.67,
+    "median_source_length": 13,
+    "median_target_length": 11,
+    "top_tokens": [
+      [
+        "i",
+        10119
+      ],
+      [
+        ".",
+        9752
+      ],
+      [
+        "corpus",
+        6499
+      ],
+      [
+        "personachat",
+        6499
+      ],
+      [
+        "you",
+        4739
+      ],
+      [
+        "?",
+        4275
+      ],
+      [
+        ",",
+        3767
+      ],
+      [
+        "a",
+        3409
+      ],
+      [
+        "to",
+        3081
+      ],
+      [
+        "do",
+        2970
+      ],
+      [
+        "is",
+        2738
+      ],
+      [
+        "my",
+        2635
+      ],
+      [
+        "am",
+        2416
+      ],
+      [
+        "!",
+        2173
+      ],
+      [
+        "the",
+        2057
+      ],
+      [
+        "that",
+        1956
+      ],
+      [
+        "have",
+        1818
+      ],
+      [
+        "are",
+        1815
+      ],
+      [
+        "and",
+        1604
+      ],
+      [
+        "like",
+        1580
+      ]
+    ],
+    "noisy_examples": [
+      {
+        "source": "corpus personachat that is cool i love the out doors , and work for discovery",
+        "target": "discovery ?",
+        "reason": "very_short"
+      },
+      {
+        "source": "corpus personachat same , same it is a very busy time for me .",
+        "target": "why ?",
+        "reason": "very_short"
+      },
+      {
+        "source": "corpus personachat having you tried yoga or mediating ? very relaxing .",
+        "target": "i should",
+        "reason": "very_short"
+      },
+      {
+        "source": "corpus personachat how are you ?",
+        "target": "hi !",
+        "reason": "very_short"
+      },
+      {
+        "source": "corpus personachat its so nice to be this close to the ocean .",
+        "target": "so true",
+        "reason": "very_short"
+      }
+    ]
+  }
+}

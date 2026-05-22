@@ -6,4 +6,6 @@ data/
 .github/
 copilot-journal.md
 
+Baseline_ChatBot/
 checkpoints/
+guidelines.md

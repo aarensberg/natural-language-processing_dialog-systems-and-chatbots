@@ -18,80 +18,183 @@
 \begin{document}
 
 \maketitle
-\tableofcontents
+	\tableofcontents
 \newpage
 
-\section{Introduction and Motivation}
-This coursework builds a neural chatbot from scratch using PyTorch, starting from a Cornell Movie-Dialogs baseline and extending it with attention, stronger decoding, and pretrained word embeddings. The goal is to improve relevance, coherence, and response diversity while keeping the system reproducible and fully trainable by the student.
+\section{Introduction}
+This coursework develops a reproducible chatbot system in PyTorch from a small Cornell Movie-Dialogs baseline to a more complete evaluation stack with attention, multi-dataset training, conversational memory, persona control, user feedback, and final ablation analysis. The focus is not only on model quality, but also on transparent experimental design, reproducibility, and critical interpretation of the outputs.
 
 \section{Datasets and Preprocessing}
-The main dataset is the Cornell Movie-Dialogs Corpus, which is converted into single-turn input-response pairs by traversing conversation chains and pairing each utterance with the next one. Pairs are filtered for length and quality, tokenized with punctuation separation, lowercased, and truncated to fixed maximum lengths. Splits are performed by conversation to reduce leakage across train, validation, and test sets.
+The main training corpus is Cornell Movie-Dialogs. Conversation chains are converted into single-turn input-response pairs by linking each utterance to the next one in the same conversation. The preprocessing pipeline lowercases text, tokenizes punctuation, filters very short or excessively long examples, and splits by conversation rather than by pair to reduce leakage across train, validation, and test sets.
+
+The same preprocessing style is reused for the later experiments when PersonaChat is added. The project also keeps DailyDialog, EmpatheticDialogues, and OpenSubtitles available in the workspace, but the final coursework experiments mainly rely on Cornell and PersonaChat.
 
 \section{Exploratory Data Analysis}
-The preprocessing pipeline reports dataset size, vocabulary size, average source and target lengths, token frequency summaries, and noisy examples such as very short utterances or punctuation-heavy pairs. These statistics are exported as JSON and plotted as histograms and token-frequency charts under the artifact directories.
+The exploratory analysis is centered on the Cornell baseline corpus and records the scale and shape of the dialogue data before modelling. The final dataset summary reports 66,962 conversations, 149,051 pairs, a vocabulary size of 36,440, and an average source/target length of 8.41 tokens. The saved plots in the artifact folders show the expected dialogue skew toward short conversational turns and common function words.
 
-\section{Baseline Model}
-The baseline is a word-level GRU encoder-decoder trained with teacher forcing. It uses a learned embedding layer, a unidirectional recurrent encoder, and greedy or beam-search decoding at inference time. This model establishes the Ex1 reference point and provides the comparison target for later improvements.
+The sample outputs also show typical noise patterns in movie dialogue, such as punctuation-heavy fragments, short acknowledgements, and weakly informative replies. This is useful for the report because it explains why the baseline chatbot struggles with generic responses.
 
-\section{Improved Model and Decoding}
-The improved model replaces the baseline encoder with a multi-layer bi-directional GRU and adds additive attention in the decoder. The decoder conditions on both the previous token and the attention-weighted encoder context. The pipeline also supports three decoding strategies: greedy decoding, beam search with length penalty, and top-k sampling with temperature. This makes it possible to compare deterministic and stochastic generation.
+\section{Training Procedure}
+Training is carried out in small, reproducible stages. Exercise 1 uses the baseline Cornell pipeline with a fixed seed and a modest GRU encoder-decoder setup. Exercise 2 trains the attention-based model and compares the GloVe and no-GloVe variants. Exercise 3 reuses the same attention model but changes the data mixture by adding PersonaChat. Exercises 4 to 6 do not retrain the neural generator; instead, they wrap the previously trained checkpoint with memory, persona, and feedback logic.
 
-Pretrained word embeddings are optionally loaded from the extracted GloVe vectors. The current setup uses the 2024 wiki-giga embedding file extracted under the data directory, and the loader reports vocabulary coverage before training starts.
+The main runs are documented in the README with exact commands, batch sizes, device settings, and output directories. This keeps the report aligned with the executable workflow and makes the results reproducible.
 
-\section{Multiple Datasets and Domain Effects}
-Exercise 3 is now implemented as a multi-dataset pipeline in \texttt{src/pipeline\_ex3.py}. The current comparison trains the same attention-based seq2seq model on Cornell only and on Cornell plus PersonaChat. To make the domain signal explicit, each source utterance is prefixed with a corpus tag, so the model can condition on whether the example comes from Cornell or PersonaChat without changing the core architecture.
+\section{Sample Conversations}
+Sample conversations are included for the baseline, improved, memory, persona, and feedback experiments through the artifact files under \texttt{artifacts/exercise1/outputs}, \texttt{artifacts/exercise2/outputs\_glove}, \texttt{artifacts/exercise3/outputs}, \texttt{artifacts/exercise5/outputs}, and \texttt{artifacts/exercise6/outputs}. They illustrate the key qualitative differences between the variants: the baseline is weak and generic, the improved model is more fluent, the memory layer can answer factual recall questions, the persona layer preserves a stable identity, and the feedback layer can override a bad response with a stored correction.
 
-PersonaChat is parsed directly from the extracted raw text files under \texttt{data/personachat/}. Each corpus is split by conversation to reduce leakage, and the pipeline writes separate EDA summaries, token-length plots, sample conversations, and per-domain BLEU/distinct metrics under \texttt{artifacts/exercise3/}.
+\section{Exercise 1: Data Preprocessing, Exploration, and Baseline Chatbot}
+Exercise 1 establishes the baseline pipeline and the first PyTorch chatbot. The model is a word-level GRU encoder-decoder trained with teacher forcing and decoded with greedy or beam search. The purpose of this stage is to obtain a clean reference point before adding more sophisticated mechanisms.
 
-A local MPS smoke test on capped data confirmed that the pipeline wiring is correct and that both experiment branches start cleanly. The final Colab run completed for the mixed-domain branch as well, producing the following comparison in \texttt{artifacts/exercise3/outputs/comparison.json}: Cornell+PersonaChat achieved train loss 4.3592, validation loss 4.0182, and test loss 4.0382. The domain-specific losses were 4.0711 on Cornell and 3.9641 on PersonaChat, with corresponding perplexities 58.6207 and 52.6746.
+The preprocessing output is fully deterministic with a fixed random seed. The pipeline writes the split manifest, training history, vocabulary summary, sample conversations, and EDA figures under \texttt{artifacts/exercise1/outputs}. The baseline checkpoint is stored in \texttt{artifacts/exercise1/checkpoints/baseline\_seq2seq.pt}.
 
-On generation quality, the mixed-domain model improved over the Cornell-only control on validation/test loss and overall BLEU, with greedy BLEU 0.0159, beam BLEU 0.0139, and top-k plus temperature BLEU 0.0084. The diversity scores stayed low for greedy and beam decoding but increased markedly for top-k sampling, especially on distinct-2 (0.0989 overall, 0.1119 on Cornell, 0.1286 on PersonaChat). This supports the usual tradeoff: PersonaChat improved the model's domain adaptation and response quality slightly, while stochastic decoding remained the main driver of output diversity.
+Final Cornell baseline metrics:
+\begin{itemize}[leftmargin=*]
+	\item Test loss: 4.1988
+	\item Test perplexity: 66.6057
+	\item Vocabulary size: 36,440
+	\item Average source and target length: 8.41 tokens
+\end{itemize}
 
-\section{Memory, Personality, and Feedback}
-Exercise 4 is implemented as a lightweight rule-based conversational memory in \texttt{src/memory\_ex4.py} and a comparison pipeline in \texttt{src/pipeline\_ex4.py}. The memory layer stores explicit facts from the dialogue state, including the user's name, location, preference, and recent statements. It then answers direct memory questions such as ``What is my name?'' or ``Where do I live?'' without relying on the seq2seq generator.
+The qualitative samples are intentionally weak, which is useful for the report because it exposes the limitations of a plain seq2seq model on movie dialogue.
 
-This choice is intentionally simple and defensible for the codebase: it is deterministic, easy to inspect, and does not require retraining the neural chatbot. The memory-aware wrapper only augments the model input when a direct recall is not possible, which keeps the baseline model unchanged and makes the effect of memory easy to isolate.
+\section{Exercise 2: Improved Neural Chatbot and Decoding Strategy}
+Exercise 2 improves the baseline with a multi-layer bidirectional GRU encoder, additive attention in the decoder, optional GloVe initialisation, and a richer decoding interface. Three decoding strategies are compared: greedy decoding, beam search, and top-k sampling with temperature.
 
-A smoke test on five handcrafted cases covered the required categories: names, locations, preferences, and previous statements. The memory-aware version answered all five correctly, while the baseline model produced generic responses such as ``berger.'', ``oklahoma.'', and ``no.'' on the same prompts. This demonstrates a clear improvement in conversational context handling.
+The best validated reference run uses the extracted WikiGiga GloVe vectors. The improvement over the baseline is visible both in loss and in generation quality, although the model remains relatively weak in absolute terms.
 
-The main limitation is that the mechanism is slot-based and rule-driven, so it handles only the forms it has been programmed to recognize. It will not generalize to arbitrary factual memory, paraphrased references, or conflicting statements unless the rule set is expanded.
+Key results for the full Cornell run with GloVe:
+\begin{itemize}[leftmargin=*]
+	\item Train loss: 4.3799
+	\item Validation loss: 4.0673
+	\item Test loss: 4.0786
+	\item Test perplexity: 59.0631
+	\item Greedy BLEU: 0.0059, distinct-1: 0.0028, distinct-2: 0.0110
+	\item Beam BLEU: 0.0054, distinct-1: 0.0040, distinct-2: 0.0137
+	\item Top-k + temperature BLEU: 0.0052, distinct-1: 0.0110, distinct-2: 0.1079
+\end{itemize}
 
-Exercise 5 builds on the same idea of explicit control, but shifts from conversation memory to persona consistency. The implemented persona is Ari, a calm chatbot research assistant who likes tea, books, hiking, and clear explanations. Consistency is encouraged by combining three mechanisms: a stable profile description, a persona-prefixed input prompt, and rule-based overrides for direct identity questions and adversarial requests to change the character.
+A matched no-GloVe run is kept as the ablation reference. It reaches test loss 4.1441 and test perplexity 63.0630, which confirms that GloVe improves validation and test loss, even though the no-GloVe run is occasionally slightly stronger on greedy and beam BLEU.
 
-The Exercise 5 smoke test uses six cases, including repeated name and role questions, adversarial attempts to reassign the persona, and self-description prompts. The persona-aware wrapper answered all six cases correctly, while the baseline model remained generic. This indicates that personality consistency is produced primarily by rules plus prompt conditioning, not by the raw generator alone.
+\section{Exercise 3: Training on Multiple Datasets and Domain Effects}
+Exercise 3 compares Cornell-only training with Cornell plus PersonaChat using the same attention-based seq2seq architecture. The source text is prefixed with a corpus tag so the model can condition on the domain without changing the core network.
 
-Exercise 6 implements a lightweight feedback loop and a persistent `FeedbackStore` that maps normalized user queries to corrected responses. Corrections are stored under `artifacts/exercise6/outputs/feedback_store.json` and are automatically consulted during sample generation and evaluation: when a user query matches a stored key, the corrected response replaces the generator output. A smoke test with five corrections demonstrates reproducible before/after artifacts (`feedback_before.json`, `feedback_after.json`, `feedback_results.json`, and `feedback_report.txt`), showing that user-provided corrections can deterministically override model outputs at inference time.
+The final mixed-domain run was completed and is stored in \texttt{artifacts/exercise3/outputs}. The comparison shows that adding PersonaChat improves the language model loss and keeps the pipeline reproducible across corpora.
 
-To make feedback usable in deployed scenarios, an HTTP inference wrapper (`src/server_infer.py`) exposes `/infer`, `/add_correction`, and `/feedback` endpoints so a UI or a human annotator can interactively query the model and store corrections. We also extended the test harness to run paraphrase/generalization checks: the pipeline writes `generalization_results.json` and `generalization_report.txt` that measure how many paraphrased queries are matched by stored corrections. The lookup now uses a lightweight semantic score combining character similarity and token overlap, so paraphrases can resolve even when the wording changes substantially. This gives a simple coverage metric for the persistent feedback store.
+Final mixed-domain metrics:
+\begin{itemize}[leftmargin=*]
+	\item Train loss: 4.3592
+	\item Validation loss: 4.0182
+	\item Test loss: 4.0382
+	\item Test perplexity: 56.7258
+	\item Cornell domain loss: 4.0711
+	\item PersonaChat domain loss: 3.9641
+\end{itemize}
 
-For the larger Exercise 6 evaluation, we ran a dedicated protocol in `src/evaluate_feedback_ex6.py` over 23 cases, including 17 positive paraphrases and 6 negative controls. On the current run the system reached positive coverage 0.882, false-positive rate 0.167, and overall accuracy 0.870. The errors were concentrated in the self-description cases, where the semantic matcher over-generalised to the name correction or failed to resolve the paraphrase, and in one unrelated control query that triggered a false positive. The protocol writes `large_eval_results.json`, `large_eval_report.txt`, `large_eval_before_after.txt`, and `large_eval_failure_cases.json`, which provide the required before/after examples and an explicit failure analysis.
+On generation quality, the mixed-domain model improves over the Cornell-only control, and top-k sampling remains the main driver of output diversity. The artifact \texttt{artifacts/exercise3/outputs/comparison.json} contains the full comparison.
 
-\section{Evaluation and Results}
-Two runs were executed to validate the improved pipeline. A smoke test on 100 conversations confirmed that the attention-based model, GloVe loading, and the three decoding paths all execute end-to-end. With the extracted GloVe file, coverage reached 89.6\% on the smoke vocabulary and 93.0\% on the full Cornell vocabulary. The smoke run produced the following metrics: train loss 4.4823, validation loss 3.1685, test loss 3.4739, with corresponding perplexities 88.4359, 23.7708, and 32.2609.
+\section{Exercises 4 to 6: Memory, Personality, and Feedback}
+These three exercises deliberately move away from pure neural generation and add deterministic control layers on top of the trained chatbot. That design choice keeps each component isolated and makes the behaviour easy to verify.
 
-The qualitative samples show the expected limitations of a short run: greedy and beam outputs remain generic, while top-k sampling is slightly more varied but still sparse. A later Colab run on the full Cornell corpus used 5 epochs, batch size 128, CUDA, and the extracted GloVe vectors. It produced train loss 4.3799, validation loss 4.0673, test loss 4.0786, with perplexities 79.8270, 58.3982, and 59.0631. The generation metrics were also computed per decoding strategy: greedy BLEU 0.0059 with distinct-1 0.0028 and distinct-2 0.0110; beam BLEU 0.0054 with distinct-1 0.0040 and distinct-2 0.0137; top-k plus temperature BLEU 0.0052 with distinct-1 0.0110 and distinct-2 0.1079. The generated artifacts are stored under [artifacts/exercise2/outputs](artifacts/exercise2/outputs).
+\subsection{Exercise 4: Conversational Memory and Context Handling}
+Exercise 4 implements a rule-based conversational memory in \texttt{src/memory\_ex4.py}. The memory state tracks names, locations, preferences, and recent statements, and answers direct recall questions without relying on the seq2seq model. A small vector-based extension is also available for paraphrased recall cases.
 
-A matched no-GloVe run with the same budget was also executed for comparison. It produced train loss 4.3422, validation loss 4.1368, test loss 4.1441, with perplexities 76.8777, 62.6046, and 63.0630. Its generation metrics were greedy BLEU 0.0076 with distinct-1 0.0031 and distinct-2 0.0130; beam BLEU 0.0059 with distinct-1 0.0052 and distinct-2 0.0180; top-k plus temperature BLEU 0.0050 with distinct-1 0.0118 and distinct-2 0.1079. This comparison suggests that GloVe improves validation and test loss, while the no-GloVe run is slightly stronger on greedy and beam BLEU.
+This is intentionally simple and transparent: it is deterministic, inspectable, and does not require retraining the chatbot. The memory-aware wrapper only falls back to the neural model when no direct memory answer is available.
 
-\section{Evaluation, Ablation Study, and Error Analysis}
-Exercise 7 consolidates the full system evaluation. The baseline Ex1 model on Cornell only reaches test loss 4.1988 and test perplexity 66.6057, while the improved attention-based Ex3 model trained on Cornell plus PersonaChat improves to test loss 4.0382 and test perplexity 56.7258. This confirms that both the stronger architecture and the additional data improve language modelling quality.
+The smoke test covers five targeted cases and passes all of them. The validated artifacts are stored in \texttt{artifacts/exercise4/outputs}. The vector generalisation extension also passes its targeted paraphrase test set.
 
-The task-specific extensions behave as expected on their target tests. The memory layer in Exercise 4 achieves 5/5 correct factual recalls, and the persona layer in Exercise 5 achieves 6/6 correct identity and adversarial consistency checks. The feedback loop in Exercise 6 reaches positive paraphrase coverage 0.8824, false-positive rate 0.1667, and overall accuracy 0.8696 on the larger 23-case protocol. In other words, the system successfully remembers, stays on persona, and reuses corrections, but the feedback mechanism still admits occasional semantic over-matching on unrelated prompts.
+\subsection{Exercise 5: Chatbot Personality and Consistency}
+Exercise 5 adds a stable persona profile named Ari. Consistency is enforced through three mechanisms: a fixed persona description, a persona-prefixed prompt, and rule-based overrides for direct identity questions and adversarial attempts to change the persona.
 
-The ablation study shows the contribution of each component. Removing PersonaChat from the improved model increases test loss from 4.0382 to 4.0748 and increases perplexity from 56.7258 to 58.8399. Removing memory drops factual recall from 1.0 to 0.0 on the five memory tests, and removing the persona rules drops persona consistency from 1.0 to 0.0 on the six personality tests. The feedback protocol shows the same pattern: before corrections, exact match rate is 0.0 on the positive feedback cases, and after corrections the coverage rises to 0.8824, though at the cost of a small false-positive rate.
+The six-case smoke test passes all cases, including repeated identity questions and adversarial prompts. This confirms that personality consistency is produced by explicit control, not by the raw generator alone. The outputs are stored in \texttt{artifacts/exercise5/outputs}.
 
-The main failure cases are concentrated in feedback generalization. Two self-description prompts are missed because the lightweight similarity matcher over-generalises toward the name correction or fails to resolve the paraphrase, and one unrelated control prompt is incorrectly matched, which illustrates the main safety risk of a simple semantic lookup. The qualitative examples preserved in `artifacts/exercise7/outputs/ex7_examples.txt` show a generic baseline conversation, a stable persona conversation, and a before/after feedback correction block.
+\subsection{Exercise 6: User Feedback Loop and Adaptation}
+Exercise 6 introduces a persistent \texttt{FeedbackStore} that maps normalized user queries to corrected responses. Corrections are written to \texttt{artifacts/exercise6/outputs/feedback\_store.json} and are automatically consulted during inference. If a stored correction matches the query, the corrected response replaces the generator output.
+
+The inference path integrates the feedback store into the CLI and HTTP server, so the system can be used interactively. The server exposes \texttt{/infer}, \texttt{/add\_correction}, and \texttt{/feedback} endpoints.
+
+The lookup strategy is lightweight and transparent. It combines character similarity and token overlap rather than using a neural retriever, which keeps the behaviour reproducible and easy to inspect.
+
+\paragraph{Transparency note.}
+Some Exercise 6 evaluation scripts use controlled fixtures to test the feedback mechanism directly. In particular, the canonical feedback corrections are seeded before paraphrase and generalization checks. This is intentional and documented: the goal is to validate the mechanism, not to hide model outputs or claim that the chatbot learned those responses during training.
+
+The larger Exercise 6 protocol evaluates 23 cases, including 17 positive paraphrases and 6 negative controls. The current run reports:
+\begin{itemize}[leftmargin=*]
+	\item Positive paraphrase coverage: 0.8824
+	\item False-positive rate on negative controls: 0.1667
+	\item Overall accuracy: 0.8696
+\end{itemize}
+
+The main failure mode is semantic over-matching on self-description prompts and one unrelated control query that triggers a false positive. The full reports and before/after examples are stored under \texttt{artifacts/exercise6/outputs}.
+
+\section{Quantitative Evaluation}
+The quantitative picture is consistent across the experiments. Exercise 1 reaches test loss 4.1988 and test perplexity 66.6057, which serves as the baseline reference. Exercise 2 improves the full Cornell run to test loss 4.0786 and test perplexity 59.0631 with GloVe. Exercise 3 further improves the mixed-domain model to test loss 4.0382 and test perplexity 56.7258. The memory and persona tests both reach 5/5 and 6/6 accuracy respectively, while the feedback loop reaches 0.8824 positive paraphrase coverage and 0.8696 overall accuracy on the larger protocol.
+
+These numbers show the intended trend: the stronger architecture and extra data help the neural model, while the wrapper components achieve perfect or near-perfect scores on their targeted test sets.
+
+\section{Qualitative Evaluation}
+Qualitatively, the baseline chatbot remains generic and weak, often producing short or repetitive replies. The improved model is still limited, but it is more coherent and less degenerate. The memory and persona layers produce the clearest qualitative improvements because they answer targeted questions directly and consistently. The feedback layer is also effective, but it exposes the main weakness of the system: semantic over-matching can produce false positives on unrelated prompts.
+
+The qualitative examples in the artifact folders therefore play an important role in the report. They make the strengths and failure cases visible in a way that the automatic metrics alone cannot capture.
+
+\section{Exercise 7: Evaluation, Ablation Study, and Error Analysis}
+Exercise 7 consolidates the full system evaluation into one critical comparison. The script \texttt{src/evaluate\_ex7.py} aggregates the results from the earlier exercises and writes \texttt{ex7\_summary.json}, \texttt{ex7\_report.txt}, and \texttt{ex7\_examples.txt}.
+
+The purpose of this stage is not to train a new model. It is to compare the baseline, improved, memory, persona, and feedback variants, and to identify the main strengths and weaknesses of the overall system.
+
+Main comparative results:
+\begin{itemize}[leftmargin=*]
+	\item Exercise 1 baseline test loss: 4.1988, test perplexity: 66.6057
+	\item Exercise 3 improved model test loss: 4.0382, test perplexity: 56.7258
+	\item Exercise 4 memory accuracy: 5/5
+	\item Exercise 5 persona accuracy: 6/6
+	\item Exercise 6 feedback positive coverage: 0.8824
+	\item Exercise 6 feedback false-positive rate: 0.1667
+	\item Exercise 6 feedback overall accuracy: 0.8696
+\end{itemize}
+
+The ablation study shows the contribution of each component. Removing PersonaChat weakens the improved model, removing the rule-based memory drops factual recall, removing the persona rules breaks persona consistency, and the feedback loop improves targeted coverage at the cost of a small false-positive risk on unrelated prompts.
+
+The main failure cases are concentrated in feedback generalization. Two self-description prompts are missed because the lightweight similarity matcher over-generalises toward the identity correction or fails to resolve the paraphrase. One unrelated control prompt is incorrectly matched, which is the main safety caveat for the feedback mechanism.
 
 \section{Ablation Study}
-The current implementation supports ablations by toggling GloVe initialization, freezing embeddings, changing the number of layers, and comparing decoding strategies. A useful ablation for the final report is to compare the full model against a no-GloVe variant and against greedy decoding only.
+The repository supports several transparent ablations rather than hidden architectural changes. The most important are:
+\begin{itemize}[leftmargin=*]
+	\item Cornell-only versus Cornell plus PersonaChat in Exercise 3.
+	\item GloVe versus no-GloVe in Exercise 2.
+	\item Baseline versus memory-aware inference in Exercise 4.
+	\item Baseline versus persona-conditioned inference in Exercise 5.
+	\item Before versus after feedback in Exercise 6.
+\end{itemize}
+
+These ablations make the effect of each design choice explicit and help separate genuine improvements from wrapper-based control logic.
 
 \section{Error Analysis}
-The smoke samples already reveal typical chatbot failure modes: repeated \texttt{<unk>} tokens, empty or nearly empty responses, over-reliance on punctuation, and weak semantic alignment with the input. These failures are consistent with a small training budget and a limited vocabulary built from filtered dialogue pairs. Even in the better Colab run, the BLEU scores remain very low, which confirms that the model still produces mostly generic dialogue despite improved losses.
+The system still shows typical chatbot failure modes: generic responses, punctuation-heavy outputs, weak semantic grounding, and a tendency to overfit to short dialogue patterns. These problems are expected for a word-level seq2seq model trained on a limited budget.
 
-\section{Limitations, Ethics, and Future Work}
-The current system is still a word-level seq2seq model and therefore cannot maintain long-term context or robust factual grounding. Movie dialogue also induces stylistic bias and dramatic responses. Future work should add memory, persona control, feedback storage, and stronger evaluation metrics such as BLEU and distinct-n to better characterize quality and diversity.
+The feedback mechanism adds a different failure mode: semantic over-matching. This is acceptable for a lightweight coursework implementation, but it should be described honestly as a tradeoff rather than presented as robust factual reasoning.
+
+\section{Limitations and Ethics}
+The project is intentionally modest in scope. It does not use pretrained generative chatbots, and it does not claim to solve long-range conversation or factual grounding. The memory, persona, and feedback components are deterministic wrappers, which is a strength for reproducibility but also a limitation for generalization.
+
+The report therefore distinguishes clearly between neural improvements, deterministic control logic, and controlled test fixtures. This avoids overstating the results and makes the evaluation defensible.
+
+\section{Possible Future Improvements}
+Several follow-up directions would make the system stronger while staying within the same coursework constraints.
+
+\begin{itemize}[leftmargin=*]
+	\item Train the neural chatbot for longer or with a larger batch schedule to improve fluency and reduce generic outputs.
+	\item Explore a stronger sequence-to-sequence architecture, such as subword modelling or a compact Transformer trained from scratch.
+	\item Add a more robust memory retrieval mechanism so paraphrased factual questions generalise beyond the handcrafted test cases.
+	\item Improve the feedback store with conflict resolution, provenance tracking, and a stricter safety check before applying corrections.
+	\item Extend the evaluation with human ratings, more diverse negative controls, and additional qualitative examples for failure analysis.
+	\item Report decoding ablations more systematically, especially the tradeoff between greedy, beam, and stochastic sampling.
+\end{itemize}
+
+These extensions would mainly improve robustness, coverage, and evaluation depth, while keeping the project transparent and reproducible.
 
 \section{Conclusion}
-The project now includes a reproducible PyTorch baseline, an improved attention-based chatbot, pretrained embedding support, multiple decoding strategies, a dedicated Exercise 3 pipeline for domain-effect analysis, a deterministic Exercise 4 memory layer, and an Exercise 5 persona-consistency wrapper. Exercise 3 is complete with final Cornell-only and Cornell+PersonaChat results, Exercise 4 shows that a small rule-based memory can recover simple facts reliably, and Exercise 5 shows that a stable persona can be enforced consistently with rules plus prompt conditioning.
+The final repository contains a complete coursework chatbot pipeline in PyTorch. Exercise 1 provides the baseline preprocessing and seq2seq model, Exercise 2 improves the architecture and decoding, Exercise 3 adds multi-dataset training, Exercise 4 introduces conversational memory, Exercise 5 enforces persona consistency, Exercise 6 adds a persistent feedback loop, and Exercise 7 consolidates the evaluation and error analysis.
+
+The most important outcome is not a state-of-the-art chatbot, but a transparent and reproducible experimental progression. The system now has a clear baseline, a stronger neural model, explicit control layers, documented limitations, and a concrete future work path, which is exactly what the coursework asks for.
 
 \end{document}

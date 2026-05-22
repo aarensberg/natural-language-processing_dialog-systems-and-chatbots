@@ -1,18 +1,32 @@
 # Chatbot Coursework
 
-This repository contains the coursework chatbot pipeline in PyTorch. The current codebase is centered on the improved Exercise 2 model, while Exercise 1 artifacts are preserved for reference.
+This repository contains the final PyTorch implementation for the chatbot coursework. The project is organised around seven exercises that progressively add preprocessing, stronger modelling, multi-dataset training, memory, personality control, user feedback, and final evaluation.
+
+## Overview
+
+The codebase is intentionally split into small, inspectable components:
+
+- Exercise 1 builds the Cornell Movie-Dialogs preprocessing pipeline, baseline seq2seq model, and initial evaluation artifacts.
+- Exercise 2 adds a stronger attention-based chatbot and compares greedy, beam, and sampling-based decoding.
+- Exercise 3 compares Cornell-only training against Cornell plus PersonaChat.
+- Exercise 4 adds deterministic conversational memory.
+- Exercise 5 adds a stable persona profile and adversarial consistency checks.
+- Exercise 6 adds a persistent feedback store and applies it at inference time.
+- Exercise 7 aggregates the full evaluation, ablation study, and error analysis.
+
+The project is fully trainable in PyTorch. No pretrained generative chatbot API is used for response generation.
 
 ## Setup
 
-1. Create a virtual environment and install dependencies.
+1. Create a local virtual environment and install dependencies.
 
    ```bash
    python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   source .venv/bin/activate
    pip install -r requirements.txt
    ```
 
-2. Download and extract the dialogue datasets. By default this downloads everything, but you can pass `--datasets` to choose only the corpora you need.
+2. Download the dialogue corpora you need. By default the downloader fetches all supported datasets, but you can restrict it with `--datasets`.
 
    ```bash
    python scripts/download_datasets.py
@@ -24,57 +38,68 @@ This repository contains the coursework chatbot pipeline in PyTorch. The current
    python scripts/download_datasets.py --datasets cornell personachat dailydialog
    ```
 
-   Available values: `cornell`, `personachat`, `dailydialog`, `empatheticdialogues`, `opensubtitles`.
+   Supported values are `cornell`, `personachat`, `dailydialog`, `empatheticdialogues`, and `opensubtitles`.
 
-3. Check the dataset paths in [src/config.py](src/config.py). The defaults are:
+3. Confirm the dataset paths in [src/config.py](src/config.py). The default locations are:
 
-   ```python
-   CORNELL_MOVIE_DIR = DATA_DIR / "cornell movie-dialogs corpus"
-   PERSONA_CHAT_DIR = DATA_DIR / "personachat"
-   DAILY_DIALOG_DIR = DATA_DIR / "EMNLP_dataset"
-   EMPATHETIC_DIALOGUES_DIR = DATA_DIR / "empatheticdialogues"
-   OPEN_SUBTITLES_DIR = DATA_DIR / "opensubtitles"
-   ```
+   - [src/config.py](src/config.py)
+   - [data/cornell movie-dialogs corpus](data/cornell%20movie-dialogs%20corpus)
+   - [data/personachat](data/personachat)
+   - [data/EMNLP_dataset](data/EMNLP_dataset)
+   - [data/empatheticdialogues](data/empatheticdialogues)
+   - [data/opensubtitles](data/opensubtitles)
 
 ## Artifact Layout
 
-Keep only the exercise root folders in `artifacts/`:
+Keep the repository outputs grouped by exercise:
 
 ```text
-artifacts
-├── exercise1
-│   ├── checkpoints
-│   └── outputs
-├── exercise2
-│   ├── checkpoints
-│   └── outputs
-├── exercise3
-│   ├── checkpoints
-│   └── outputs
-└── exercise{4-7}
-    ├── checkpoints
-    └── outputs
+artifacts/
+  exercise1/
+  exercise2/
+  exercise3/
+  exercise4/
+  exercise5/
+  exercise6/
+  exercise7/
 ```
 
-Current exercise outputs are stored in:
+The current workspace already contains the validated outputs and checkpoints for Exercises 1 to 7. The most important locations are:
 
-- `artifacts/exercise1/outputs/`
-- `artifacts/exercise2/outputs/`
-- `artifacts/exercise2/outputs_no_glove/`
-- `artifacts/exercise2/outputs_glove/`
-- `artifacts/exercise3/outputs/`
-- `artifacts/exercise4/outputs/`
-- `artifacts/exercise5/outputs/`
+- [artifacts/exercise1/outputs](artifacts/exercise1/outputs)
+- [artifacts/exercise1/checkpoints/baseline_seq2seq.pt](artifacts/exercise1/checkpoints/baseline_seq2seq.pt)
+- [artifacts/exercise2/outputs](artifacts/exercise2/outputs)
+- [artifacts/exercise2/outputs_no_glove](artifacts/exercise2/outputs_no_glove)
+- [artifacts/exercise2/outputs_glove](artifacts/exercise2/outputs_glove)
+- [artifacts/exercise2/checkpoints/seq2seq_attention.pt](artifacts/exercise2/checkpoints/seq2seq_attention.pt)
+- [artifacts/exercise3/outputs](artifacts/exercise3/outputs)
+- [artifacts/exercise3/checkpoints](artifacts/exercise3/checkpoints)
+- [artifacts/exercise4/outputs](artifacts/exercise4/outputs)
+- [artifacts/exercise5/outputs](artifacts/exercise5/outputs)
+- [artifacts/exercise6/outputs](artifacts/exercise6/outputs)
+- [artifacts/exercise7/outputs](artifacts/exercise7/outputs)
 
-## Running Exercise 2
+Exercises 4 to 6 intentionally do not store new model checkpoints because they reuse the existing neural checkpoints from earlier exercises and add deterministic wrappers on top.
 
-The improved chatbot is the current executable pipeline.
+## Exercise 1
+
+Exercise 1 builds the Cornell baseline.
+
+```bash
+python -m src.pipeline --epochs 2 --batch-size 64 --device cpu --output-dir artifacts/exercise1/outputs
+```
+
+It produces the Cornell statistics, plots, training history, sample conversations, vocabulary files, and the baseline checkpoint in [artifacts/exercise1/checkpoints/baseline_seq2seq.pt](artifacts/exercise1/checkpoints/baseline_seq2seq.pt).
+
+## Exercise 2
+
+Exercise 2 adds attention, a stronger GRU encoder-decoder, optional GloVe initialisation, and multiple decoding strategies.
 
 ```bash
 python -m src.pipeline --epochs 5 --batch-size 128 --device cuda --use-glove --glove-path data/wiki_giga_2024_300_MFT20_vectors_seed_2024_alpha_0.75_eta_0.05_combined.txt --output-dir artifacts/exercise2/outputs
 ```
 
-Optional pretrained-embedding smoke test:
+Optional smoke test:
 
 ```bash
 python -m src.pipeline --max-conversations 100 --epochs 1 --batch-size 16 --device cpu --use-glove --glove-path data/wiki_giga_2024_300_MFT20_vectors_seed_2024_alpha_0.75_eta_0.05_combined.txt --output-dir artifacts/exercise2/outputs
@@ -89,146 +114,116 @@ pip install -r requirements.txt
 python scripts/download_datasets.py --datasets cornell
 curl -L "https://nlp.stanford.edu/data/wordvecs/glove.2024.wikigiga.300d.zip" -o glove.2024.wikigiga.300d.zip
 unzip glove.2024.wikigiga.300d.zip
-rm glove.2024.wikigiga.300d.zip  # Optional cleanup
+rm glove.2024.wikigiga.300d.zip
 python -m src.pipeline --epochs 5 --batch-size 128 --device cuda --use-glove --glove-path data/wiki_giga_2024_300_MFT20_vectors_seed_2024_alpha_0.75_eta_0.05_combined.txt --output-dir artifacts/exercise2/outputs
 ```
 
-After the Colab run, copy these paths back into the local workspace:
+The no-GloVe and GloVe outputs are preserved separately for the ablation comparison. The checkpoint is [artifacts/exercise2/checkpoints/seq2seq_attention.pt](artifacts/exercise2/checkpoints/seq2seq_attention.pt).
 
-- `artifacts/exercise2/checkpoints/seq2seq_attention.pt`
-- `artifacts/exercise2/outputs/`
-- `artifacts/exercise2/copilot-journal.md`
+## Exercise 3
 
-For the ablation comparison, keep both Colab result folders:
-
-- `artifacts/exercise2/outputs_no_glove/`
-- `artifacts/exercise2/outputs_glove/`
-
-The GloVe run is the better reference for validation/test loss, while the no-GloVe run remains useful as the ablation baseline.
-
-If you rerun a job, clear or archive the target `outputs/` directory first so the standardized layout stays clean.
-
-## Running Exercise 3
-
-Exercise 3 compares Cornell-only training with Cornell + PersonaChat training using the same attention-based seq2seq model and a corpus prefix in the source text.
-
-The final mixed-domain run is now complete. Cornell-only remains the control baseline, while Cornell + PersonaChat is the final multi-dataset comparison. The current workspace contains the full metrics and generation artifacts for both branches, so no rerun is needed before moving to Exercise 4.
+Exercise 3 compares Cornell-only training against Cornell plus PersonaChat training using the same attention-based seq2seq architecture.
 
 ```bash
 python -m src.pipeline_ex3 --experiments cornell_only cornell_plus_persona --epochs 5 --batch-size 128 --device cuda --use-glove --glove-path data/wiki_giga_2024_300_MFT20_vectors_seed_2024_alpha_0.75_eta_0.05_combined.txt --output-dir artifacts/exercise3/outputs
 ```
 
-The pipeline writes comparison outputs, domain-specific metrics, plots, and sample conversations under `artifacts/exercise3/outputs/{cornell_only,cornell_plus_persona}`. The final mixed-domain metrics are in `artifacts/exercise3/outputs/comparison.json`.
+The pipeline writes domain-specific outputs, sample conversations, plots, and the final comparison summary under [artifacts/exercise3/outputs](artifacts/exercise3/outputs). The final mixed-domain metrics are stored in [artifacts/exercise3/outputs/comparison.json](artifacts/exercise3/outputs/comparison.json).
 
-## Running Exercise 4
+## Exercise 4
 
-Exercise 4 adds a simple but defensible conversational memory layer on top of the existing chatbot. It uses a rule-based memory state for names, locations, preferences, and recent statements, and falls back to the seq2seq model when no direct memory answer is available. A small vector-based extension now also handles paraphrased recall questions, and the inference path refuses clearly unsafe prompts with a fixed safety message.
+Exercise 4 adds a deterministic conversational memory layer for names, locations, preferences, and recent statements.
 
 ```bash
 python -m src.pipeline_ex4 --device cpu --output-dir artifacts/exercise4/outputs
 ```
 
-The pipeline compares baseline responses with memory-aware responses on five test cases and writes the results to `artifacts/exercise4/outputs/memory_test_results.json` and `artifacts/exercise4/outputs/memory_test_report.txt`.
+The memory layer is rule-based by design, which makes the targeted recall tests predictable and easy to inspect. The pipeline also includes a small vector-based generalisation pass for paraphrased recall questions, plus a simple safety refusal for clearly unsafe prompts.
 
-The optional vector-memory generalization pass writes `artifacts/exercise4/outputs/memory_vector_test_results.json` and `artifacts/exercise4/outputs/memory_vector_test_report.txt`.
+Generated artifacts:
 
-## Running Exercise 5
+- [artifacts/exercise4/outputs/memory_test_results.json](artifacts/exercise4/outputs/memory_test_results.json)
+- [artifacts/exercise4/outputs/memory_test_report.txt](artifacts/exercise4/outputs/memory_test_report.txt)
+- [artifacts/exercise4/outputs/memory_vector_test_results.json](artifacts/exercise4/outputs/memory_vector_test_results.json)
+- [artifacts/exercise4/outputs/memory_vector_test_report.txt](artifacts/exercise4/outputs/memory_vector_test_report.txt)
 
-Exercise 5 uses a stable persona profile named Ari. The personality mechanism combines a fixed persona description, a prompt prefix that injects the profile into the model input, and rule-based answers for direct identity questions such as the name, role, interests, and adversarial attempts to change the persona.
+## Exercise 5
+
+Exercise 5 adds a stable persona profile named Ari.
 
 ```bash
 python -m src.pipeline_ex5 --device cpu --output-dir artifacts/exercise5/outputs
 ```
 
-The smoke test covers six cases, including repeated and adversarial questions. The final outputs live in `artifacts/exercise5/outputs/personality_test_results.json`, `artifacts/exercise5/outputs/personality_test_report.txt`, and `artifacts/exercise5/outputs/sample_conversations.txt`.
+The personality mechanism combines a fixed profile, a persona-prefixed prompt, and rule-based overrides for direct identity questions and adversarial attempts to change the character. The smoke test covers six cases and writes the outputs to [artifacts/exercise5/outputs](artifacts/exercise5/outputs).
 
-## Running Exercise 6
+## Exercise 6
 
-Exercise 6 implements a simple user feedback loop where corrections are stored and reapplied at inference time. The smoke test stores user-provided corrections in `artifacts/exercise6/outputs/feedback_store.json` and demonstrates before/after responses.
+Exercise 6 implements a persistent feedback loop.
 
 ```bash
 python -m src.pipeline_ex6 --output-dir artifacts/exercise6/outputs
 ```
 
-When generating samples or evaluating outputs, the pipeline now consults the feedback store and replaces any generated response that matches a corrected query. The feedback artifacts produced by the smoke test are:
+Corrections are stored in [artifacts/exercise6/outputs/feedback_store.json](artifacts/exercise6/outputs/feedback_store.json) and automatically applied at inference time through the CLI and HTTP server. The feedback store is deterministic and JSON-backed, so the before/after results can be reproduced exactly.
 
-- `artifacts/exercise6/outputs/feedback_store.json`
-- `artifacts/exercise6/outputs/feedback_before.json`
-- `artifacts/exercise6/outputs/feedback_after.json`
-- `artifacts/exercise6/outputs/feedback_results.json`
-- `artifacts/exercise6/outputs/feedback_report.txt`
-- `artifacts/exercise6/outputs/sample_before_after.txt`
+Artifacts written by the smoke test and extended evaluation:
 
-To reproduce the integrated behaviour (model + feedback), run the normal generation pipeline (Exercise 2 or 3), then ensure `artifacts/exercise6/outputs/feedback_store.json` exists and is populated; the generation scripts will automatically apply stored corrections when producing `sample` or `generation_metrics` outputs.
+- [artifacts/exercise6/outputs/feedback_before.json](artifacts/exercise6/outputs/feedback_before.json)
+- [artifacts/exercise6/outputs/feedback_after.json](artifacts/exercise6/outputs/feedback_after.json)
+- [artifacts/exercise6/outputs/feedback_results.json](artifacts/exercise6/outputs/feedback_results.json)
+- [artifacts/exercise6/outputs/feedback_report.txt](artifacts/exercise6/outputs/feedback_report.txt)
+- [artifacts/exercise6/outputs/sample_before_after.txt](artifacts/exercise6/outputs/sample_before_after.txt)
+- [artifacts/exercise6/outputs/generalization_results.json](artifacts/exercise6/outputs/generalization_results.json)
+- [artifacts/exercise6/outputs/generalization_report.txt](artifacts/exercise6/outputs/generalization_report.txt)
+- [artifacts/exercise6/outputs/large_eval_results.json](artifacts/exercise6/outputs/large_eval_results.json)
+- [artifacts/exercise6/outputs/large_eval_report.txt](artifacts/exercise6/outputs/large_eval_report.txt)
+- [artifacts/exercise6/outputs/large_eval_before_after.txt](artifacts/exercise6/outputs/large_eval_before_after.txt)
+- [artifacts/exercise6/outputs/large_eval_failure_cases.json](artifacts/exercise6/outputs/large_eval_failure_cases.json)
 
-### HTTP inference server (optional)
-
-You can run a lightweight HTTP server that exposes the inference API and the feedback store. Install dependencies and start the server:
+### HTTP inference server
 
 ```bash
-pip install -r requirements.txt
 python -m src.server_infer
 ```
 
 Endpoints:
-- `POST /infer` with JSON `{ "query": "...", "method": "greedy|beam|sample" }` returns `{ "response": "..." }`.
-- `POST /add_correction` with JSON `{ "query": "...", "correction": "..." }` saves a correction to the feedback store.
-- `GET /feedback` returns the current feedback store as JSON.
 
-### Generalization test (paraphrase coverage)
+- `POST /infer` with JSON `{ "query": "...", "method": "greedy|beam|sample" }`
+- `POST /add_correction` with JSON `{ "query": "...", "correction": "..." }`
+- `GET /feedback`
 
-To measure how stored corrections generalise to paraphrases, run the extended feedback test which computes paraphrase coverage and writes `generalization_results.json` and `generalization_report.txt`:
+### Transparency note
 
-```bash
-python -m src.pipeline_ex6 --extended
-```
+Some evaluation scripts use controlled fixtures so the behaviour of the new component can be measured directly. In particular, Exercise 6 seeds canonical corrections before the paraphrase and generalization checks, which is intentional and documented. This is not model leakage: it is a test harness for the feedback mechanism.
 
-The report contains per-paraphrase hits (direct correction found or matched by normalization) and an overall coverage metric.
+The semantic lookup used by the feedback store is lightweight and rule-based. It combines character similarity and token overlap instead of a neural retriever, which keeps the pipeline reproducible and transparent.
 
-The current lookup strategy uses a lightweight semantic score based on character similarity plus token overlap, so paraphrased requests such as "Could you tell me what food you like most?" can still resolve to the stored correction for "What is your favourite food?".
+## Exercise 7
 
-### Large evaluation protocol
-
-To run the larger evaluation with before/after examples and error analysis, use:
-
-```bash
-python -m src.evaluate_feedback_ex6
-```
-
-This generates:
-
-- `artifacts/exercise6/outputs/large_eval_results.json`
-- `artifacts/exercise6/outputs/large_eval_report.txt`
-- `artifacts/exercise6/outputs/large_eval_before_after.txt`
-- `artifacts/exercise6/outputs/large_eval_failure_cases.json`
-
-On the current run, the protocol reported positive paraphrase coverage of 0.882, a false-positive rate of 0.167 on negative controls, and overall accuracy of 0.870. The observed failure cases were concentrated in the self-description category and one unrelated control query that produced a false positive.
-
-## Running Exercise 7
-
-Exercise 7 aggregates the complete system evaluation, ablation study, and error analysis from the existing artifacts. It compares the baseline model, the improved attention-based model, and the memory, persona, and feedback variants.
+Exercise 7 aggregates the complete system evaluation, ablation study, and error analysis.
 
 ```bash
 python -m src.evaluate_ex7
 ```
 
-The protocol writes the following files under `artifacts/exercise7/outputs/`:
+It writes:
 
-- `ex7_summary.json`
-- `ex7_report.txt`
-- `ex7_examples.txt`
+- [artifacts/exercise7/outputs/ex7_summary.json](artifacts/exercise7/outputs/ex7_summary.json)
+- [artifacts/exercise7/outputs/ex7_report.txt](artifacts/exercise7/outputs/ex7_report.txt)
+- [artifacts/exercise7/outputs/ex7_examples.txt](artifacts/exercise7/outputs/ex7_examples.txt)
 
-The summary covers baseline versus improved metrics, memory/persona/feedback accuracy, dataset and component ablations, and a five-case failure analysis focused on the feedback loop. The current run highlights the expected trend: the improved model lowers loss relative to the baseline, memory and persona achieve perfect scores on their targeted test sets, and feedback improves coverage but still shows a small false-positive risk on unrelated queries.
+The summary compares baseline versus improved metrics, memory/persona/feedback behaviour, and the main failure modes of the feedback loop. The report is a critical evaluation of the whole system rather than a new training run.
 
-Recommended Colab flow on a T4 GPU:
+## Checkpoint Fallbacks
 
-```bash
-git clone https://github.com/aarensberg/natural-language-processing_dialog-systems-and-chatbots.git
-cd natural-language-processing_dialog-systems-and-chatbots
-pip install -r requirements.txt
-python scripts/download_datasets.py --datasets personachat
-python -m src.pipeline_ex3 --experiments cornell_only cornell_plus_persona --epochs 5 --batch-size 128 --device cuda --use-glove --glove-path data/wiki_giga_2024_300_MFT20_vectors_seed_2024_alpha_0.75_eta_0.05_combined.txt --output-dir artifacts/exercise3/outputs
-```
+Exercises 4 to 6 are intentionally wrapper-based. They reuse the earlier neural checkpoints when needed:
+
+- Exercise 4 first looks for an Exercise 4 checkpoint, then falls back to Exercise 3, then Exercise 2.
+- Exercise 5 first looks for an Exercise 5 checkpoint, then falls back to Exercise 4, then Exercise 3.
+- Exercise 6 first looks for an Exercise 6 checkpoint, then falls back to Exercise 4, then Exercise 3, then Exercise 2.
+
+This keeps the memory, persona, and feedback experiments reproducible without requiring redundant retraining.
 
 ## Datasets
 
@@ -240,4 +235,4 @@ The project supports these dialogue corpora:
 4. EmpatheticDialogues
 5. OpenSubtitles
 
-See the dataset download links and references in the coursework brief if you need the sources again.
+The coursework runs in this repository primarily rely on Cornell and PersonaChat, with the other corpora kept available for extensions and comparison.
